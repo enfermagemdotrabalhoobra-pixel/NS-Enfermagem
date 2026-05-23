@@ -1,0 +1,2183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>NS Enfermagem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --verde: #1a7a3c;
+  --verde-light: #2ecc71;
+  --verde-dark: #145c2c;
+  --verde-bg: #e8f8ef;
+  --verde-mid: #27ae60;
+  --azul: #1565c0;
+  --azul-light: #42a5f5;
+  --azul-bg: #e3f2fd;
+  --vermelho: #c62828;
+  --vermelho-light: #ef5350;
+  --vermelho-bg: #ffebee;
+  --branco: #ffffff;
+  --cinza-light: #f5f7fa;
+  --cinza-mid: #e0e6ed;
+  --cinza: #7f8c9a;
+  --texto: #1a2535;
+  --texto-sec: #4a5568;
+  --borda: #d0d7e3;
+  --sombra: 0 2px 12px rgba(0,0,0,0.08);
+  --radius: 10px;
+  --radius-lg: 14px;
+  --header-h: 56px;
+  --bottom-h: 60px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;max-width:100vw;}
+body{font-family:'Inter',sans-serif;background:var(--cinza-light);color:var(--texto);font-size:14px;}
+
+/* ===== TELA DE LOGIN ===== */
+#loginScreen{
+  position:fixed;inset:0;background:linear-gradient(135deg,var(--verde-dark) 0%,var(--verde) 60%,var(--verde-mid) 100%);
+  display:flex;align-items:center;justify-content:center;z-index:2000;padding:20px;
+}
+.login-box{
+  background:#fff;border-radius:20px;padding:36px 28px;width:100%;max-width:380px;
+  box-shadow:0 24px 60px rgba(0,0,0,0.3);
+}
+.login-logo{text-align:center;margin-bottom:28px;}
+.login-logo .logo-circle{
+  width:72px;height:72px;background:linear-gradient(135deg,var(--verde-dark),var(--verde-mid));
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  margin:0 auto 14px;font-size:30px;color:#fff;
+  box-shadow:0 8px 20px rgba(26,122,60,0.4);
+}
+.login-logo h1{font-family:'Nunito',sans-serif;font-size:26px;font-weight:800;color:var(--verde-dark);}
+.login-logo p{font-size:13px;color:var(--cinza);margin-top:4px;}
+.login-tabs{display:flex;background:var(--cinza-light);border-radius:10px;padding:4px;margin-bottom:22px;gap:4px;}
+.login-tab{flex:1;padding:7px 4px;border:none;background:transparent;border-radius:8px;font-size:11px;font-weight:600;color:var(--cinza);cursor:pointer;transition:all 0.2s;font-family:inherit;text-align:center;}
+.login-tab.active{background:#fff;color:var(--verde-dark);box-shadow:0 1px 6px rgba(0,0,0,0.1);}
+.login-field{margin-bottom:16px;}
+.login-field label{display:block;font-size:11px;font-weight:700;color:var(--cinza);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px;}
+.login-field input{
+  width:100%;padding:12px 14px;border:2px solid var(--borda);border-radius:10px;
+  font-size:15px;font-family:inherit;color:var(--texto);transition:border-color 0.2s;
+}
+.login-field input:focus{outline:none;border-color:var(--verde);}
+.btn-login{
+  width:100%;padding:13px;background:linear-gradient(135deg,var(--verde-dark),var(--verde-mid));
+  color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+  font-family:inherit;margin-top:4px;transition:opacity 0.2s;
+  box-shadow:0 4px 12px rgba(26,122,60,0.3);
+}
+.btn-login:active{opacity:0.85;}
+.login-error{
+  background:var(--vermelho-bg);color:var(--vermelho);border:1px solid #ffcdd2;
+  border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;
+  display:none;align-items:center;gap:8px;margin-bottom:14px;
+}
+.login-error.show{display:flex;}
+
+/* ===== HEADER ===== */
+.header{
+  background:linear-gradient(135deg,var(--verde-dark) 0%,var(--verde) 60%,var(--verde-mid) 100%);
+  color:#fff;padding:0 16px;display:flex;align-items:center;
+  justify-content:space-between;height:var(--header-h);position:fixed;top:0;left:0;right:0;z-index:100;
+  box-shadow:0 3px 16px rgba(26,122,60,0.35);
+}
+.header-left{display:flex;align-items:center;gap:10px;}
+.hamburger{
+  background:rgba(255,255,255,0.15);border:none;color:#fff;width:38px;height:38px;
+  border-radius:8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  transition:background 0.2s;flex-shrink:0;
+}
+.hamburger:active{background:rgba(255,255,255,0.3);}
+.hamburger span{display:block;width:18px;height:2px;background:#fff;border-radius:2px;transition:all 0.3s;}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.header-logo-info h1{font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;line-height:1.1;}
+.header-logo-info span{font-size:10px;opacity:0.8;}
+.header-right{display:flex;gap:8px;align-items:center;}
+.btn-header{
+  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);
+  color:#fff;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:12px;
+  display:flex;align-items:center;gap:5px;transition:background 0.2s;font-family:'Inter',sans-serif;
+}
+.btn-header:active{background:rgba(255,255,255,0.3);}
+.btn-header.danger{background:rgba(198,40,40,0.6);}
+.header-user-info{font-size:11px;opacity:0.85;text-align:right;line-height:1.3;}
+.header-user-info strong{display:block;font-size:12px;}
+
+/* ===== DRAWER / SIDEBAR ===== */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;
+}
+.overlay.open{opacity:1;pointer-events:all;}
+.sidebar{
+  position:fixed;top:0;left:-280px;width:272px;height:100%;
+  background:var(--verde-dark);color:#fff;z-index:201;
+  display:flex;flex-direction:column;overflow-y:auto;
+  transition:left 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:4px 0 24px rgba(0,0,0,0.3);
+}
+.sidebar.open{left:0;}
+.sidebar-header{
+  padding:20px 18px 14px;
+  background:rgba(0,0,0,0.2);
+  display:flex;align-items:center;gap:12px;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.sidebar-header .s-avatar{
+  width:44px;height:44px;background:rgba(255,255,255,0.2);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;
+}
+.sidebar-header .s-name{font-weight:700;font-size:14px;}
+.sidebar-header .s-role{font-size:11px;opacity:0.7;margin-top:2px;}
+.sidebar-section{padding:10px 0 4px;}
+.sidebar-label{
+  font-size:9px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.4);
+  padding:0 16px 6px;text-transform:uppercase;
+}
+.sidebar-item{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;cursor:pointer;
+  font-size:14px;transition:background 0.15s;border-left:3px solid transparent;
+}
+.sidebar-item:active{background:rgba(255,255,255,0.12);}
+.sidebar-item.active{background:rgba(255,255,255,0.15);border-left-color:var(--verde-light);font-weight:600;}
+.sidebar-item i{width:20px;text-align:center;font-size:16px;opacity:0.85;}
+
+/* ===== MAIN ===== */
+.app{
+  position:fixed;top:var(--header-h);left:0;right:0;
+  bottom:var(--bottom-h);overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  background:var(--cinza-light);
+}
+.main{padding:14px 14px 20px;overflow-x:hidden;width:100%;}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;height:var(--bottom-h);
+  background:#fff;border-top:1px solid var(--cinza-mid);
+  display:flex;z-index:100;
+  box-shadow:0 -2px 12px rgba(0,0,0,0.08);
+}
+.bn-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;cursor:pointer;padding:6px 2px;transition:background 0.15s;border:none;background:transparent;
+  color:var(--cinza);font-family:inherit;
+}
+.bn-item:active{background:var(--verde-bg);}
+.bn-item.active{color:var(--verde-dark);}
+.bn-item i{font-size:18px;}
+.bn-item span{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
+.bn-item.active i{color:var(--verde);}
+.bn-dot{
+  width:5px;height:5px;background:var(--verde);border-radius:50%;
+  position:absolute;top:8px;
+}
+
+/* ===== PACIENTE BAR ===== */
+.paciente-bar{
+  background:#fff;border-radius:var(--radius-lg);padding:12px 14px;
+  margin-bottom:14px;box-shadow:var(--sombra);border:1px solid var(--borda);
+}
+.paciente-bar label{
+  font-size:10px;font-weight:700;color:var(--cinza);text-transform:uppercase;
+  letter-spacing:0.8px;display:block;margin-bottom:6px;
+}
+.paciente-select{
+  width:100%;padding:10px 12px;border:2px solid var(--borda);
+  border-radius:8px;font-size:14px;background:#fff;color:var(--texto);
+  cursor:pointer;font-family:inherit;
+}
+.paciente-select:focus{outline:none;border-color:var(--verde);}
+.badge-paciente{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--verde-bg);color:var(--verde-dark);padding:5px 10px;
+  border-radius:20px;font-size:11px;font-weight:700;border:1px solid #a7e0bc;
+  margin-top:8px;
+}
+
+/* ===== CARDS ===== */
+.section-title{
+  font-family:'Nunito',sans-serif;font-size:17px;font-weight:800;
+  color:var(--verde-dark);margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.section-title i{color:var(--verde);}
+.card{
+  background:#fff;border-radius:var(--radius-lg);box-shadow:var(--sombra);
+  border:1px solid var(--borda);overflow:visible;margin-bottom:14px;
+}
+.card-header{
+  padding:12px 16px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:2px solid var(--verde);background:var(--verde-bg);
+  border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+}
+.card-header h3{
+  font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;
+  color:var(--verde-dark);display:flex;align-items:center;gap:7px;
+}
+.card-header.azul{border-bottom-color:var(--azul);background:var(--azul-bg);}
+.card-header.azul h3{color:var(--azul);}
+.card-header.vermelho{border-bottom-color:var(--vermelho);background:var(--vermelho-bg);}
+.card-header.vermelho h3{color:var(--vermelho);}
+.card-body{padding:14px 16px;}
+
+/* ===== FORMS ===== */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.form-grid-1{display:grid;grid-template-columns:1fr;gap:10px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group label{font-size:10px;font-weight:700;color:var(--cinza);text-transform:uppercase;letter-spacing:0.7px;}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:10px 12px;border:1.5px solid var(--borda);border-radius:8px;
+  font-size:14px;background:#fff;color:var(--texto);font-family:inherit;
+  transition:border-color 0.2s;-webkit-appearance:none;appearance:none;
+  box-sizing:border-box;min-width:0;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  outline:none;border-color:var(--verde);box-shadow:0 0 0 3px rgba(26,122,60,0.1);
+}
+.form-group textarea{resize:vertical;min-height:80px;}
+.full-col{grid-column:1/-1;}
+
+/* ===== BUTTONS ===== */
+.btn{
+  padding:10px 16px;border-radius:8px;cursor:pointer;font-size:13px;
+  font-weight:600;border:none;display:inline-flex;align-items:center;gap:7px;
+  transition:all 0.15s;font-family:'Inter',sans-serif;touch-action:manipulation;
+}
+.btn:active{transform:scale(0.97);}
+.btn-verde{background:var(--verde);color:#fff;}
+.btn-verde:active{background:var(--verde-dark);}
+.btn-azul{background:var(--azul);color:#fff;}
+.btn-azul:active{background:#0d47a1;}
+.btn-vermelho{background:var(--vermelho);color:#fff;}
+.btn-vermelho:active{background:#b71c1c;}
+.btn-outline{background:transparent;color:var(--verde);border:1.5px solid var(--verde);}
+.btn-outline:active{background:var(--verde-bg);}
+.btn-sm{padding:7px 12px;font-size:12px;border-radius:6px;}
+.btn-icon{padding:7px 10px;}
+.btn-full{width:100%;justify-content:center;}
+.form-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap;}
+
+/* ===== TABELA ===== */
+.table-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;font-size:12px;min-width:500px;}
+thead{background:var(--verde-dark);color:#fff;}
+thead th{padding:10px 12px;text-align:left;font-weight:700;font-size:11px;letter-spacing:0.4px;white-space:nowrap;}
+tbody tr{border-bottom:1px solid var(--cinza-mid);}
+tbody td{padding:9px 12px;color:var(--texto-sec);vertical-align:middle;}
+tbody tr:nth-child(even){background:#f9fafe;}
+
+/* ===== BADGES ===== */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;}
+.badge-verde{background:var(--verde-bg);color:var(--verde-dark);border:1px solid #a7e0bc;}
+.badge-azul{background:var(--azul-bg);color:var(--azul);border:1px solid #90caf9;}
+.badge-vermelho{background:var(--vermelho-bg);color:var(--vermelho);border:1px solid #ffcdd2;}
+.badge-amber{background:#fff8e1;color:#e65100;border:1px solid #ffe082;}
+
+/* ===== VIEWS ===== */
+.view{display:none;}
+.view.active{display:block;}
+
+/* ===== PACIENTE CARDS ===== */
+.pac-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:14px;}
+.pac-card{
+  background:#fff;border-radius:var(--radius-lg);border:1.5px solid var(--borda);
+  padding:14px 16px;cursor:pointer;transition:all 0.2s;position:relative;overflow:hidden;
+}
+.pac-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:var(--verde);}
+.pac-card.selected{border-color:var(--verde);background:var(--verde-bg);}
+.pac-name{font-family:'Nunito',sans-serif;font-weight:800;font-size:15px;color:var(--texto);margin-bottom:3px;margin-left:4px;}
+.pac-info{font-size:12px;color:var(--cinza);display:flex;gap:10px;flex-wrap:wrap;margin-top:5px;margin-left:4px;}
+.pac-info span{display:flex;align-items:center;gap:4px;}
+.pac-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+
+/* ===== SINAIS VITAIS BOXES ===== */
+.sv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.sv-box{background:var(--verde-bg);border:1.5px solid #a7e0bc;border-radius:10px;padding:10px 8px;text-align:center;}
+.sv-box.azul{background:var(--azul-bg);border-color:#90caf9;}
+.sv-box.vermelho{background:var(--vermelho-bg);border-color:#ffcdd2;}
+.sv-label{font-size:9px;font-weight:700;color:var(--cinza);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px;}
+.sv-value{font-family:'Nunito',sans-serif;font-size:18px;font-weight:800;color:var(--verde-dark);}
+.sv-box.azul .sv-value{color:var(--azul);}
+.sv-box.vermelho .sv-value{color:var(--vermelho);}
+.sv-unit{font-size:9px;color:var(--cinza);margin-top:1px;}
+
+/* ===== MODAL ===== */
+.modal-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);
+  z-index:500;align-items:flex-end;justify-content:center;padding:0;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:100%;
+  max-height:90vh;overflow-y:auto;box-shadow:0 -8px 40px rgba(0,0,0,0.2);
+  -webkit-overflow-scrolling:touch;
+}
+.modal-desktop .modal{
+  border-radius:var(--radius-lg);max-width:520px;
+  max-height:90vh;
+}
+.modal-header{
+  padding:16px 20px;background:var(--verde);color:#fff;
+  display:flex;align-items:center;justify-content:space-between;
+  border-radius:20px 20px 0 0;position:sticky;top:0;z-index:1;
+}
+.modal-header.azul{background:var(--azul);}
+.modal-header.vermelho{background:var(--vermelho);}
+.modal-header h2{font-family:'Nunito',sans-serif;font-size:16px;font-weight:800;display:flex;align-items:center;gap:8px;}
+.modal-close{
+  background:rgba(255,255,255,0.2);border:none;color:#fff;width:32px;height:32px;
+  border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;
+}
+.modal-body{padding:20px;}
+.modal-handle{width:40px;height:4px;background:var(--cinza-mid);border-radius:2px;margin:10px auto 4px;}
+
+/* ===== NOTIF ===== */
+.notif{
+  position:fixed;bottom:calc(var(--bottom-h) + 12px);left:14px;right:14px;z-index:999;
+  background:var(--verde);color:#fff;padding:12px 16px;border-radius:10px;
+  font-weight:600;font-size:14px;box-shadow:0 4px 20px rgba(0,0,0,0.25);
+  display:flex;align-items:center;gap:8px;transform:translateY(80px);
+  transition:transform 0.3s;pointer-events:none;
+}
+.notif.show{transform:translateY(0);}
+.notif.error{background:var(--vermelho);}
+
+/* ===== TABS ===== */
+.tabs{display:flex;gap:3px;background:var(--cinza-mid);padding:4px;border-radius:10px;margin-bottom:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.tab{padding:8px 12px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600;color:var(--cinza);white-space:nowrap;border:none;background:transparent;font-family:inherit;flex-shrink:0;}
+.tab.active{background:var(--verde);color:#fff;}
+
+/* ===== DECUBITO ===== */
+.decubito-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.dec-btn{
+  padding:10px 4px;border:2px solid var(--borda);border-radius:8px;cursor:pointer;
+  text-align:center;font-size:10px;font-weight:700;background:#fff;transition:all 0.2s;
+  color:var(--texto-sec);
+}
+.dec-btn.active{border-color:var(--verde);background:var(--verde);color:#fff;}
+.dec-btn i{display:block;font-size:18px;margin-bottom:3px;}
+
+/* ===== SEP / EMPTY ===== */
+.sep{border:none;border-top:1.5px solid var(--cinza-mid);margin:14px 0;}
+.empty{text-align:center;padding:28px 20px;color:var(--cinza);}
+.empty i{font-size:36px;display:block;margin-bottom:8px;opacity:0.4;}
+.empty p{font-size:13px;}
+
+/* ===== ADMIN SECTION ===== */
+.admin-badge{
+  background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;
+  padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;
+  display:inline-flex;align-items:center;gap:4px;
+}
+.user-card{
+  background:#fff;border-radius:12px;border:1px solid var(--borda);
+  padding:14px 16px;display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:10px;box-shadow:var(--sombra);
+}
+.user-card-info .u-name{font-weight:700;font-size:14px;color:var(--texto);}
+.user-card-info .u-role{font-size:11px;color:var(--cinza);margin-top:2px;}
+
+/* ===== PDF PREVIEW ===== */
+#pdfPreview{
+  display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,0.8);
+  align-items:flex-end;justify-content:center;
+}
+#pdfPreview.open{display:flex;}
+.pdf-container{
+  background:#fff;width:100%;max-height:92vh;
+  border-radius:20px 20px 0 0;overflow:hidden;display:flex;flex-direction:column;
+}
+.pdf-toolbar{
+  background:var(--verde-dark);color:#fff;padding:12px 16px;
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.pdf-toolbar h3{font-size:14px;font-weight:700;}
+#pdfContent{flex:1;overflow-y:auto;padding:20px;font-family:Arial,sans-serif;font-size:13px;-webkit-overflow-scrolling:touch;}
+
+/* ===== DASHBOARD CARDS ===== */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.dash-card{
+  background:#fff;border-radius:12px;border:1px solid var(--borda);
+  padding:14px 12px;display:flex;align-items:center;gap:12px;box-shadow:var(--sombra);
+}
+.dash-icon{
+  width:44px;height:44px;border-radius:10px;display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0;
+}
+.dash-num{font-size:24px;font-weight:800;font-family:'Nunito',sans-serif;}
+.dash-label{font-size:11px;color:var(--cinza);font-weight:600;margin-top:1px;}
+
+/* ===== COLOR CONFIG ===== */
+.color-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--cinza-mid);}
+.color-row:last-child{border-bottom:none;}
+.color-row input[type=color]{width:48px;height:40px;border:2px solid var(--borda);border-radius:8px;cursor:pointer;padding:2px;flex-shrink:0;}
+.color-row-info .cr-title{font-weight:700;font-size:14px;}
+.color-row-info .cr-desc{font-size:12px;color:var(--cinza);}
+
+/* ===== PRINT ===== */
+@media print{body>*:not(#printFrame){display:none!important;}#printFrame{display:block!important;position:fixed;inset:0;width:100%;height:100%;border:none;}}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--cinza-mid);border-radius:4px;}
+
+/* ===== DARK MODE ===== */
+[data-theme="dark"] {
+  --verde: #22c55e; --verde-light: #4ade80; --verde-dark: #15803d;
+  --verde-bg: rgba(34,197,94,0.12); --verde-mid: #16a34a;
+  --azul: #60a5fa; --azul-light: #93c5fd; --azul-bg: rgba(96,165,250,0.12);
+  --vermelho: #f87171; --vermelho-light: #fca5a5; --vermelho-bg: rgba(248,113,113,0.12);
+  --branco: #1e2535; --cinza-light: #111827; --cinza-mid: #374151;
+  --cinza: #9ca3af; --texto: #f1f5f9; --texto-sec: #cbd5e1;
+  --borda: #374151; --sombra: 0 2px 12px rgba(0,0,0,0.4);
+  --laranja: #fb923c; --laranja-dark: #c2410c; --laranja-bg: rgba(251,146,60,0.12);
+  --roxo: #a78bfa; --roxo-dark: #6d28d9; --roxo-bg: rgba(167,139,250,0.12);
+}
+[data-theme="dark"] body{background:#111827;color:#f1f5f9;}
+[data-theme="dark"] .card{background:#1e2535;border-color:#374151;}
+[data-theme="dark"] .card-header{background:rgba(34,197,94,0.08);}
+[data-theme="dark"] .card-header.azul{background:rgba(96,165,250,0.08);}
+[data-theme="dark"] .card-header.vermelho{background:rgba(248,113,113,0.08);}
+[data-theme="dark"] .card-header.laranja{background:rgba(251,146,60,0.08);}
+[data-theme="dark"] .card-header.roxo{background:rgba(167,139,250,0.08);}
+[data-theme="dark"] .login-box{background:#1e2535;}
+[data-theme="dark"] .login-field input,.login-tabs{background:#111827;}
+[data-theme="dark"] .login-tab{color:#9ca3af;}
+[data-theme="dark"] .login-tab.active{background:#1e2535;color:#22c55e;}
+[data-theme="dark"] .form-group input,[data-theme="dark"] .form-group select,[data-theme="dark"] .form-group textarea{background:#111827;border-color:#374151;color:#f1f5f9;}
+[data-theme="dark"] .paciente-select{background:#111827;border-color:#374151;color:#f1f5f9;}
+[data-theme="dark"] .bottom-nav{background:#1e2535;border-color:#374151;}
+[data-theme="dark"] .bn-item{color:#6b7280;}
+[data-theme="dark"] .bn-item.active,.bn-item.active i{color:#22c55e;}
+[data-theme="dark"] tbody tr:nth-child(even){background:#1a2030;}
+[data-theme="dark"] tbody tr{border-color:#374151;}
+[data-theme="dark"] .pac-card{background:#1e2535;border-color:#374151;}
+[data-theme="dark"] .pac-card.selected{background:rgba(34,197,94,0.1);border-color:#22c55e;}
+[data-theme="dark"] .user-card{background:#1e2535;border-color:#374151;}
+[data-theme="dark"] .dash-card{background:#1e2535;border-color:#374151;}
+[data-theme="dark"] .modal{background:#1e2535;}
+[data-theme="dark"] .dec-btn{background:#111827;border-color:#374151;color:#cbd5e1;}
+[data-theme="dark"] .app,.paciente-bar{background:#111827;}
+[data-theme="dark"] .paciente-bar{background:#1e2535;border-color:#374151;}
+[data-theme="dark"] .tabs{background:#374151;}
+[data-theme="dark"] .tab{color:#9ca3af;}
+[data-theme="dark"] .sv-box{background:rgba(34,197,94,0.1);border-color:#374151;}
+[data-theme="dark"] .evolucao-card{background:#1e2535;border-color:#374151;}
+[data-theme="dark"] .color-row{border-color:#374151;}
+[data-theme="dark"] .sep{border-color:#374151;}
+[data-theme="dark"] .login-tabs{background:#111827;}
+
+/* ===== NOVAS CORES ===== */
+:root {
+  --laranja:#d97706;--laranja-light:#f59e0b;--laranja-dark:#b45309;--laranja-bg:#fef3c7;
+  --roxo:#7c3aed;--roxo-light:#a855f7;--roxo-dark:#5b21b6;--roxo-bg:#f5f3ff;
+}
+.card-header.laranja{border-bottom-color:var(--laranja);background:var(--laranja-bg);}
+.card-header.laranja h3{color:var(--laranja-dark);}
+.card-header.roxo{border-bottom-color:var(--roxo);background:var(--roxo-bg);}
+.card-header.roxo h3{color:var(--roxo);}
+.btn-laranja{background:var(--laranja);color:#fff;}
+.btn-laranja:active{background:var(--laranja-dark);}
+.btn-roxo{background:var(--roxo);color:#fff;}
+.btn-roxo:active{background:var(--roxo-dark);}
+.badge-laranja{background:var(--laranja-bg);color:var(--laranja-dark);border:1px solid #fcd34d;}
+.badge-roxo{background:var(--roxo-bg);color:var(--roxo);border:1px solid #c4b5fd;}
+.btn-theme{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:16px;display:flex;align-items:center;transition:background 0.2s;}
+.btn-theme:active{background:rgba(255,255,255,0.3);}
+.evolucao-card{border:1.5px solid var(--borda);border-left:5px solid var(--verde);border-radius:10px;padding:14px;margin-bottom:12px;background:var(--branco);}
+.evolucao-card.fisio{border-left-color:var(--laranja);}
+.evolucao-card.nutri{border-left-color:var(--roxo);}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- ===== TELA DE LOGIN ===== -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="logo-circle"><i class="fas fa-heartbeat"></i></div>
+      <h1>NS Enfermagem</h1>
+      <p>Sistema de Controle de Pacientes</p>
+    </div>
+    <div class="login-tabs" style="flex-wrap:wrap;">
+      <button class="login-tab active" onclick="setLoginTab('admin',this)"><i class="fas fa-shield-alt"></i> Admin</button>
+      <button class="login-tab" onclick="setLoginTab('dev',this)"><i class="fas fa-code"></i> Dev</button>
+      <button class="login-tab" onclick="setLoginTab('usuario',this)"><i class="fas fa-user-nurse"></i> Enfermeiro</button>
+      <button class="login-tab" onclick="setLoginTab('tecnico',this)"><i class="fas fa-user-md"></i> Téc.Enf.</button>
+      <button class="login-tab" onclick="setLoginTab('fisio',this)"><i class="fas fa-running"></i> Fisio</button>
+      <button class="login-tab" onclick="setLoginTab('nutri',this)"><i class="fas fa-apple-alt"></i> Nutri</button>
+    </div>
+    <div class="login-error" id="loginError"><i class="fas fa-exclamation-circle"></i> <span id="loginErrorMsg">Usuário ou senha incorretos.</span></div>
+    <div class="login-field">
+      <label>Usuário</label>
+      <input type="text" id="loginUser" placeholder="Digite seu usuário" autocomplete="username" autocapitalize="none">
+    </div>
+    <div class="login-field">
+      <label>Senha</label>
+      <input type="password" id="loginPass" placeholder="Digite sua senha" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn-login" onclick="doLogin()"><i class="fas fa-sign-in-alt"></i> Entrar</button>
+    <p style="text-align:center;margin-top:14px;font-size:11px;color:var(--cinza)" id="loginHint">Admin padrão: <b>admin</b> / <b>ns2024</b></p>
+  </div>
+</div>
+
+<!-- ===== HEADER ===== -->
+<div class="header" id="mainHeader" style="display:none">
+  <div class="header-left">
+    <button class="hamburger" id="hamburger" onclick="toggleSidebar()">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="header-logo-info">
+      <h1>NS Enfermagem</h1>
+      <span>Sistema de Enfermagem</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-user-info" id="headerUserInfo"></div>
+    <button class="btn-theme" onclick="toggleTheme()" id="btnTheme">🌙</button>
+    <button class="btn-header danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+  </div>
+</div>
+
+<!-- ===== OVERLAY ===== -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- ===== SIDEBAR ===== -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <div class="s-avatar"><i class="fas fa-user-nurse"></i></div>
+    <div>
+      <div class="s-name" id="sidebarName">—</div>
+      <div class="s-role" id="sidebarRole">—</div>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Menu Principal</div>
+    <div class="sidebar-item active" id="nav-dashboard" onclick="navTo('dashboard','nav-dashboard')">
+      <i class="fas fa-chart-line"></i><span>Dashboard</span>
+    </div>
+    <div class="sidebar-item" id="nav-pacientes" onclick="navTo('pacientes','nav-pacientes')">
+      <i class="fas fa-users"></i><span>Pacientes</span>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Registros Clínicos</div>
+    <div class="sidebar-item" id="nav-sinais" onclick="navTo('sinais','nav-sinais')">
+      <i class="fas fa-stethoscope"></i><span>Sinais Vitais</span>
+    </div>
+    <div class="sidebar-item" id="nav-hgt" onclick="navTo('hgt','nav-hgt')">
+      <i class="fas fa-tint"></i><span>Glicemia (HGT)</span>
+    </div>
+    <div class="sidebar-item" id="nav-decubito" onclick="navTo('decubito','nav-decubito')">
+      <i class="fas fa-bed"></i><span>Mudança Decúbito</span>
+    </div>
+    <div class="sidebar-item" id="nav-dispositivos" onclick="navTo('dispositivos','nav-dispositivos')">
+      <i class="fas fa-procedures"></i><span>SVD/GTT/SNE/SNG</span>
+    </div>
+    <div class="sidebar-item" id="nav-oxigenio" onclick="navTo('oxigenio','nav-oxigenio')">
+      <i class="fas fa-wind"></i><span>Oxigenioterapia (O₂)</span>
+    </div>
+    <div class="sidebar-item" id="nav-medicacoes" onclick="navTo('medicacoes','nav-medicacoes')">
+      <i class="fas fa-pills"></i><span>Medicações</span>
+    </div>
+    <div class="sidebar-item" id="nav-evolucao" onclick="navTo('evolucao','nav-evolucao')">
+      <i class="fas fa-notes-medical"></i><span>Evolução</span>
+    </div>
+  </div>
+  <div class="sidebar-section" id="navFisioSection" style="display:none">
+    <div class="sidebar-label" style="color:rgba(251,146,60,0.9)">Fisioterapia</div>
+    <div class="sidebar-item" id="nav-fisio" onclick="navTo('fisio','nav-fisio')">
+      <i class="fas fa-running"></i><span>Atendimentos Fisio</span>
+    </div>
+    <div class="sidebar-item" id="nav-fisioEvo" onclick="navTo('fisioEvo','nav-fisioEvo')">
+      <i class="fas fa-clipboard-list"></i><span>Evolução Fisio</span>
+    </div>
+  </div>
+  <div class="sidebar-section" id="navNutriSection" style="display:none">
+    <div class="sidebar-label" style="color:rgba(167,139,250,0.9)">Nutrição</div>
+    <div class="sidebar-item" id="nav-nutri" onclick="navTo('nutri','nav-nutri')">
+      <i class="fas fa-apple-alt"></i><span>Avaliações Nutricionais</span>
+    </div>
+    <div class="sidebar-item" id="nav-nutriEvo" onclick="navTo('nutriEvo','nav-nutriEvo')">
+      <i class="fas fa-clipboard-list"></i><span>Evolução Nutricional</span>
+    </div>
+  </div>
+  <div class="sidebar-section" id="navAdminSection" style="display:none">
+    <div class="sidebar-label">Administração</div>
+    <div class="sidebar-item" id="nav-admin" onclick="navTo('admin','nav-admin')">
+      <i class="fas fa-users-cog"></i><span>Gerenciar Usuários</span>
+    </div>
+    <div class="sidebar-item" id="nav-config" onclick="openModal('modalConfig');closeSidebar()">
+      <i class="fas fa-palette"></i><span>Cores / Aparência</span>
+    </div>
+  </div>
+  <div class="sidebar-section" id="navDevSection" style="display:none">
+    <div class="sidebar-label" style="color:rgba(96,165,250,0.9)">Desenvolvedor</div>
+    <div class="sidebar-item" onclick="navTo('admin','nav-admin')">
+      <i class="fas fa-users-cog"></i><span>Gerenciar Usuários</span>
+    </div>
+    <div class="sidebar-item" onclick="openModal('modalConfig');closeSidebar()">
+      <i class="fas fa-palette"></i><span>Cores / Aparência</span>
+    </div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-label">Relatórios</div>
+    <div class="sidebar-item" onclick="gerarPDF();closeSidebar()">
+      <i class="fas fa-file-pdf"></i><span>Gerar PDF</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP / MAIN ===== -->
+<div class="app" id="mainApp" style="display:none">
+  <div class="main">
+
+    <!-- Paciente Selector -->
+    <div class="paciente-bar" id="pacienteBar" style="display:none">
+      <label><i class="fas fa-user-injured" style="color:var(--verde)"></i> Paciente Selecionado</label>
+      <select class="paciente-select" id="pacienteSelector" onchange="onPacienteSelect()">
+        <option value="">— Selecione o paciente —</option>
+      </select>
+      <div id="badgePaciente" class="badge-paciente" style="display:none">
+        <i class="fas fa-user"></i><span id="badgePacienteText"></span>
+      </div>
+    </div>
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="view active" id="view-dashboard">
+      <div class="section-title"><i class="fas fa-chart-line"></i> Dashboard Geral</div>
+      <div class="dash-grid" id="dashCards"></div>
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-users"></i> Pacientes Ativos</h3></div>
+        <div class="card-body table-wrapper">
+          <table id="dashPacTable">
+            <thead><tr><th>Nome</th><th>Leito</th><th>Diagnóstico</th><th>Últ. Sinais</th><th>Ações</th></tr></thead>
+            <tbody id="dashPacBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PACIENTES ===== -->
+    <div class="view" id="view-pacientes">
+      <div class="section-title"><i class="fas fa-users"></i> Cadastro de Pacientes</div>
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-user-plus"></i> Novo Paciente</h3></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group full-col"><label>Nome Completo *</label><input type="text" id="pacNome" placeholder="Nome do paciente" autocapitalize="words"></div>
+            <div class="form-group"><label>Idade (anos)</label><input type="number" id="pacIdade" placeholder="65" min="0" max="130" inputmode="numeric"></div>
+            <div class="form-group"><label>Leito / Quarto</label><input type="text" id="pacLeito" placeholder="12A" autocapitalize="characters"></div>
+            <div class="form-group full-col"><label>Diagnóstico</label><input type="text" id="pacDiagnostico" placeholder="Diagnóstico principal" autocapitalize="sentences"></div>
+            <div class="form-group"><label>Data Internação</label><input type="date" id="pacDataInt"></div>
+            <div class="form-group"><label>Médico Resp.</label><input type="text" id="pacMedico" placeholder="Dr." autocapitalize="words"></div>
+            <div class="form-group"><label>Acamado?</label>
+              <select id="pacAcamado"><option value="nao">Não</option><option value="sim">Sim</option></select>
+            </div>
+            <div class="form-group full-col"><label>Observações</label><textarea id="pacObs" placeholder="Alergias, condições especiais..."></textarea></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-verde btn-full" onclick="salvarPaciente()"><i class="fas fa-save"></i> Salvar Paciente</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-title" style="margin-top:4px"><i class="fas fa-list"></i> Pacientes Cadastrados</div>
+      <div class="pac-grid" id="listaPacientes"></div>
+    </div>
+
+    <!-- ===== SINAIS VITAIS ===== -->
+    <div class="view" id="view-sinais">
+      <div class="section-title"><i class="fas fa-stethoscope"></i> Sinais Vitais</div>
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-plus-circle"></i> Registrar Sinais Vitais</h3></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group"><label>Data</label><input type="date" id="svData"></div>
+            <div class="form-group"><label>Hora Exata</label><input type="time" id="svHora"></div>
+            <div class="form-group full-col"><label>Turno</label>
+              <select id="svHorario">
+                <option value="manha">Manhã (06h–12h)</option>
+                <option value="tarde">Tarde (12h–18h)</option>
+                <option value="noite">Noite (18h–24h)</option>
+                <option value="madrugada">Madrugada (00h–06h)</option>
+              </select>
+            </div>
+            <div class="form-group"><label>PA Sistólica (mmHg)</label><input type="number" id="svPAS" placeholder="120" inputmode="numeric"></div>
+            <div class="form-group"><label>PA Diastólica (mmHg)</label><input type="number" id="svPAD" placeholder="80" inputmode="numeric"></div>
+            <div class="form-group"><label>FC (bpm)</label><input type="number" id="svFC" placeholder="75" inputmode="numeric"></div>
+            <div class="form-group"><label>FR (irpm)</label><input type="number" id="svFR" placeholder="18" inputmode="numeric"></div>
+            <div class="form-group"><label>Temperatura (°C)</label><input type="number" id="svTemp" step="0.1" placeholder="36.5" inputmode="decimal"></div>
+            <div class="form-group"><label>SpO₂ (%)</label><input type="number" id="svSPO2" placeholder="98" inputmode="numeric"></div>
+            <div class="form-group"><label>Dor (0–10)</label><input type="number" id="svDor" min="0" max="10" placeholder="0" inputmode="numeric"></div>
+            <div class="form-group"><label>Observação</label><input type="text" id="svObs" placeholder="Observações" autocapitalize="sentences"></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-verde btn-full" onclick="salvarSinaisVitais()"><i class="fas fa-save"></i> Salvar Sinais Vitais</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-history"></i> Histórico de Sinais Vitais</h3></div>
+        <div class="card-body table-wrapper" id="tabelaSinais"></div>
+      </div>
+    </div>
+
+    <!-- ===== HGT ===== -->
+    <div class="view" id="view-hgt">
+      <div class="section-title"><i class="fas fa-tint"></i> Glicemia Capilar (HGT)</div>
+      <div class="card">
+        <div class="card-header azul"><h3><i class="fas fa-plus-circle"></i> Registrar HGT</h3></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group"><label>Data</label><input type="date" id="hgtData"></div>
+            <div class="form-group"><label>Hora</label><input type="time" id="hgtHora"></div>
+            <div class="form-group"><label>Glicemia (mg/dL) *</label><input type="number" id="hgtValor" placeholder="120" inputmode="numeric"></div>
+            <div class="form-group"><label>Período</label>
+              <select id="hgtPeriodo">
+                <option value="jejum">Jejum</option>
+                <option value="preprandial">Pré-prandial</option>
+                <option value="posprandial">Pós-prandial 2h</option>
+                <option value="ao_deitar">Ao deitar</option>
+                <option value="extra">Extra / Necessidade</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Conduta</label><input type="text" id="hgtConduta" placeholder="Ex: Insulina Regular 4UI" autocapitalize="sentences"></div>
+            <div class="form-group"><label>Observação</label><input type="text" id="hgtObs" placeholder="Observações" autocapitalize="sentences"></div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-azul btn-full" onclick="salvarHGT()"><i class="fas fa-save"></i> Salvar HGT</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header azul"><h3><i class="fas fa-history"></i> Histórico HGT</h3></div>
+        <div class="card-body table-wrapper" id="tabelaHGT"></div>
+      </div>
+    </div>
+
+    <!-- ===== DECÚBITO ===== -->
+    <div class="view" id="view-decubito">
+      <div class="section-title"><i class="fas fa-bed"></i> Mudança de Decúbito</div>
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-plus-circle"></i> Registrar Mudança de Decúbito</h3></div>
+        <div class="card-body">
+          <div class="form-grid" style="margin-bottom:12px">
+            <div class="form-group"><label>Data</label><input type="date" id="decData"></div>
+            <div class="form-group"><label>Hora</label><input type="time" id="decHora"></div>
+            <div class="form-group full-col"><label>Responsável</label><input type="text" id="decResp" placeholder="Nome do enfermeiro(a)" autocapitalize="words"></div>
+          </div>
+          <div class="form-group" style="margin-bottom:12px">
+            <label>Posição</label>
+            <div class="decubito-grid" style="margin-top:8px">
+              <button type="button" class="dec-btn" onclick="selecionarDecubito(this,'Decúbito Dorsal')"><i class="fas fa-male"></i>Dorsal</button>
+              <button type="button" class="dec-btn" onclick="selecionarDecubito(this,'Lat. Direito')"><i class="fas fa-male fa-rotate-90"></i>Lat. Dir.</button>
+              <button type="button" class="dec-btn" onclick="selecionarDecubito(this,'Lat. Esquerdo')"><i class="fas fa-male fa-rotate-270"></i>Lat. Esq.</button>
+              <button type="button" class="dec-btn" onclick="selecionarDecubito(this,'Decúbito Ventral')"><i class="fas fa-male fa-flip-vertical"></i>Ventral</button>
+              <button type="button" class="dec-btn" onclick="selecionarDecubito(this,'Fowler 30°')"><i class="fas fa-chair"></i>Fowler 30°</button>
+              <button type="button" class="dec-btn" onclick="selecionarDecubito(this,'Fowler 45°')"><i class="fas fa-chair"></i>Fowler 45°</button>
+              <button type="button" class="dec-btn" onclick="selecionarDecubito(this,'Semi-Fowler')"><i class="fas fa-chair"></i>Semi-Fowler</button>
+              <button type="button" class="dec-btn" onclick="selecionarDecubito(this,'Trendelemburg')"><i class="fas fa-bed"></i>Trend.</button>
+            </div>
+            <input type="hidden" id="decPosicao">
+          </div>
+          <div class="form-group">
+            <label>Observações / Lesões</label>
+            <textarea id="decObs" placeholder="Lesão por pressão, estado da pele..." autocapitalize="sentences"></textarea>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-verde btn-full" onclick="salvarDecubito()"><i class="fas fa-save"></i> Salvar</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-history"></i> Histórico de Decúbito</h3></div>
+        <div class="card-body table-wrapper" id="tabelaDecubito"></div>
+      </div>
+    </div>
+
+    <!-- ===== DISPOSITIVOS ===== -->
+    <div class="view" id="view-dispositivos">
+      <div class="section-title"><i class="fas fa-procedures"></i> SVD / GTT / SNE / SNG</div>
+      <div class="tabs">
+        <button class="tab active" onclick="showDispTab('svd',this)">SVD (Débito)</button>
+        <button class="tab" onclick="showDispTab('gtt',this)">GTT</button>
+        <button class="tab" onclick="showDispTab('sne',this)">SNE</button>
+        <button class="tab" onclick="showDispTab('sng',this)">SNG</button>
+      </div>
+      <!-- SVD -->
+      <div id="tab-svd">
+        <div class="card">
+          <div class="card-header vermelho"><h3><i class="fas fa-plus-circle"></i> Controle SVD</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group"><label>Data</label><input type="date" id="svdData"></div>
+              <div class="form-group"><label>Hora</label><input type="time" id="svdHora"></div>
+              <div class="form-group"><label>Débito (mL)</label><input type="number" id="svdDebito" placeholder="mL" inputmode="numeric"></div>
+              <div class="form-group"><label>Característica</label>
+                <select id="svdCaract">
+                  <option>Amarelo claro</option><option>Amarelo escuro</option>
+                  <option>Turvo</option><option>Hematúria</option><option>Outro</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Sonda Fr.</label><input type="text" id="svdSonda" placeholder="Fr 14" autocapitalize="none"></div>
+              <div class="form-group"><label>Obs.</label><input type="text" id="svdObs" placeholder="Observações" autocapitalize="sentences"></div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-vermelho btn-full" onclick="salvarDispositivo('svd')"><i class="fas fa-save"></i> Salvar SVD</button>
+            </div>
+          </div>
+        </div>
+        <div class="card"><div class="card-header vermelho"><h3><i class="fas fa-history"></i> Histórico SVD</h3></div>
+          <div class="card-body table-wrapper" id="tabelaSVD"></div></div>
+      </div>
+      <!-- GTT -->
+      <div id="tab-gtt" style="display:none">
+        <div class="card">
+          <div class="card-header azul"><h3><i class="fas fa-plus-circle"></i> Controle GTT (Gastrostomia)</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group"><label>Data</label><input type="date" id="gttData"></div>
+              <div class="form-group"><label>Hora</label><input type="time" id="gttHora"></div>
+              <div class="form-group"><label>Dieta (mL)</label><input type="number" id="gttDieta" placeholder="mL" inputmode="numeric"></div>
+              <div class="form-group"><label>Água (mL)</label><input type="number" id="gttAgua" placeholder="mL" inputmode="numeric"></div>
+              <div class="form-group"><label>Velocidade Infusão</label><input type="text" id="gttVel" placeholder="50 mL/h"></div>
+              <div class="form-group"><label>Resíduo Gástrico</label><input type="text" id="gttResiduo" placeholder="mL"></div>
+              <div class="form-group full-col"><label>Obs.</label><input type="text" id="gttObs" placeholder="Observações" autocapitalize="sentences"></div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-azul btn-full" onclick="salvarDispositivo('gtt')"><i class="fas fa-save"></i> Salvar GTT</button>
+            </div>
+          </div>
+        </div>
+        <div class="card"><div class="card-header azul"><h3><i class="fas fa-history"></i> Histórico GTT</h3></div>
+          <div class="card-body table-wrapper" id="tabelaGTT"></div></div>
+      </div>
+      <!-- SNE -->
+      <div id="tab-sne" style="display:none">
+        <div class="card">
+          <div class="card-header"><h3><i class="fas fa-plus-circle"></i> Controle SNE</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group"><label>Data</label><input type="date" id="sneData"></div>
+              <div class="form-group"><label>Hora</label><input type="time" id="sneHora"></div>
+              <div class="form-group"><label>Dieta (mL)</label><input type="number" id="sneDieta" placeholder="mL" inputmode="numeric"></div>
+              <div class="form-group"><label>Velocidade</label><input type="text" id="sneVel" placeholder="60 mL/h"></div>
+              <div class="form-group"><label>Posição (cm)</label><input type="text" id="snePosicao" placeholder="cm na narina" inputmode="numeric"></div>
+              <div class="form-group"><label>Verificação</label>
+                <select id="sneVerif"><option>Ausculta positiva</option><option>pH aspirado</option><option>Radiografia</option></select>
+              </div>
+              <div class="form-group full-col"><label>Obs.</label><input type="text" id="sneObs" placeholder="Observações" autocapitalize="sentences"></div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-verde btn-full" onclick="salvarDispositivo('sne')"><i class="fas fa-save"></i> Salvar SNE</button>
+            </div>
+          </div>
+        </div>
+        <div class="card"><div class="card-header"><h3><i class="fas fa-history"></i> Histórico SNE</h3></div>
+          <div class="card-body table-wrapper" id="tabelaSNE"></div></div>
+      </div>
+      <!-- SNG -->
+      <div id="tab-sng" style="display:none">
+        <div class="card">
+          <div class="card-header vermelho"><h3><i class="fas fa-plus-circle"></i> Controle SNG</h3></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="form-group"><label>Data</label><input type="date" id="sngData"></div>
+              <div class="form-group"><label>Hora</label><input type="time" id="sngHora"></div>
+              <div class="form-group"><label>Débito (mL)</label><input type="number" id="sngDebito" placeholder="mL" inputmode="numeric"></div>
+              <div class="form-group"><label>Característica</label>
+                <select id="sngCaract"><option>Gástrico</option><option>Bilioso</option><option>Fecaloide</option><option>Hemático</option><option>Outro</option></select>
+              </div>
+              <div class="form-group"><label>Posição (cm)</label><input type="text" id="sngPosicao" placeholder="cm na narina" inputmode="numeric"></div>
+              <div class="form-group"><label>Obs.</label><input type="text" id="sngObs" placeholder="Observações" autocapitalize="sentences"></div>
+            </div>
+            <div class="form-actions">
+              <button class="btn btn-vermelho btn-full" onclick="salvarDispositivo('sng')"><i class="fas fa-save"></i> Salvar SNG</button>
+            </div>
+          </div>
+        </div>
+        <div class="card"><div class="card-header vermelho"><h3><i class="fas fa-history"></i> Histórico SNG</h3></div>
+          <div class="card-body table-wrapper" id="tabelaSNG"></div></div>
+      </div>
+    </div>
+
+    <!-- ===== OXIGENIOTERAPIA ===== -->
+    <div class="view" id="view-oxigenio">
+      <div class="section-title"><i class="fas fa-wind"></i> Oxigenioterapia (O₂)</div>
+      <div class="card">
+        <div class="card-header azul"><h3><i class="fas fa-plus-circle"></i> Registrar Uso de O₂</h3></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group"><label>Data</label><input type="date" id="o2Data"></div>
+            <div class="form-group"><label>Hora</label><input type="time" id="o2Hora"></div>
+            <div class="form-group full-col"><label>Dispositivo</label>
+              <select id="o2Dispositivo" onchange="atualizarInfoO2()">
+                <option value="cateter_nasal">Cateter Nasal (CN)</option>
+                <option value="mascara_simples">Máscara Simples (MO₂)</option>
+                <option value="mascara_reservatorio">Máscara c/ Reservatório (MNR)</option>
+                <option value="mascara_venturi">Máscara de Venturi</option>
+                <option value="tenda_o2">Tenda de O₂</option>
+                <option value="vmi">VMI / Ventilação Mecânica</option>
+                <option value="vni">VNI (CPAP/BiPAP)</option>
+                <option value="alto_fluxo">Cateter de Alto Fluxo (AAF)</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Fluxo (L/min)</label>
+              <select id="o2Fluxo">
+                <option value="1">1 L/min</option><option value="2">2 L/min</option>
+                <option value="3" selected>3 L/min</option><option value="4">4 L/min</option>
+                <option value="5">5 L/min</option><option value="6">6 L/min</option>
+                <option value="7">7 L/min</option><option value="8">8 L/min</option>
+                <option value="9">9 L/min</option><option value="10">10 L/min</option>
+                <option value="12">12 L/min</option><option value="15">15 L/min</option>
+              </select>
+            </div>
+            <div class="form-group"><label>FiO₂ Estimada (%)</label>
+              <input type="text" id="o2FiO2" readonly placeholder="Auto" style="background:#f5f7fa">
+            </div>
+            <div class="form-group"><label>SpO₂ (%)</label><input type="number" id="o2Spo2" placeholder="96" min="60" max="100" inputmode="numeric"></div>
+            <div class="form-group"><label>Motivo</label><input type="text" id="o2Motivo" placeholder="Dispneia, pós-op..." autocapitalize="sentences"></div>
+            <div class="form-group"><label>Responsável</label><input type="text" id="o2Resp" placeholder="Enfermeiro(a)" autocapitalize="words"></div>
+            <div class="form-group full-col"><label>Observações</label><input type="text" id="o2Obs" placeholder="Tolerância, intercorrências..." autocapitalize="sentences"></div>
+          </div>
+          <div id="o2InfoBox" style="background:var(--azul-bg);border:1px solid #90caf9;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:12px;color:var(--azul);display:none">
+            <i class="fas fa-info-circle"></i> <span id="o2InfoTexto"></span>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-azul btn-full" onclick="salvarO2()"><i class="fas fa-save"></i> Salvar Oxigenioterapia</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header azul"><h3><i class="fas fa-history"></i> Histórico O₂</h3></div>
+        <div class="card-body table-wrapper" id="tabelaO2"></div>
+      </div>
+    </div>
+
+    <!-- ===== MEDICAÇÕES ===== -->
+    <div class="view" id="view-medicacoes">
+      <div class="section-title"><i class="fas fa-pills"></i> Medicações</div>
+      <div class="card">
+        <div class="card-header azul"><h3><i class="fas fa-plus-circle"></i> Registrar Medicação</h3></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group full-col"><label>Medicamento *</label><input type="text" id="medNome" placeholder="Nome do medicamento" autocapitalize="sentences"></div>
+            <div class="form-group"><label>Dose</label><input type="text" id="medDose" placeholder="Ex: 500mg" autocapitalize="none"></div>
+            <div class="form-group"><label>Via</label>
+              <select id="medVia">
+                <option>VO (Oral)</option><option>IV (Endovenoso)</option><option>IM (Intramuscular)</option>
+                <option>SC (Subcutâneo)</option><option>SL (Sublingual)</option><option>Inalatória</option>
+                <option>Tópica</option><option>Retal</option><option>Outro</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Frequência</label>
+              <select id="medFreq">
+                <option>1x/dia</option><option>2x/dia</option><option>3x/dia</option>
+                <option>4x/dia</option><option>6x/dia</option><option>8x/dia</option>
+                <option>12x/dia (12/12h)</option><option>Contínuo</option><option>Se necessário</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Horários</label><input type="text" id="medHorarios" placeholder="08h, 14h, 20h"></div>
+            <div class="form-group"><label>Data Início</label><input type="date" id="medDataInicio"></div>
+            <div class="form-group"><label>Data Fim</label><input type="date" id="medDataFim"></div>
+            <div class="form-group full-col"><label>Observações / Diluição</label>
+              <textarea id="medObs" placeholder="Informações adicionais, diluição..." autocapitalize="sentences"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-azul btn-full" onclick="salvarMedicacao()"><i class="fas fa-save"></i> Salvar Medicação</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header azul"><h3><i class="fas fa-list-ul"></i> Medicações Ativas</h3></div>
+        <div class="card-body table-wrapper" id="tabelaMedicacoes"></div>
+      </div>
+    </div>
+
+    <!-- ===== EVOLUÇÃO ===== -->
+    <div class="view" id="view-evolucao">
+      <div class="section-title"><i class="fas fa-notes-medical"></i> Evolução de Enfermagem</div>
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-plus-circle"></i> Nova Evolução</h3></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group"><label>Data</label><input type="date" id="evolData"></div>
+            <div class="form-group"><label>Hora</label><input type="time" id="evolHora"></div>
+            <div class="form-group"><label>Enfermeiro(a) / COREN</label><input type="text" id="evolResp" placeholder="Nome / COREN" autocapitalize="words"></div>
+            <div class="form-group"><label>Turno</label>
+              <select id="evolTurno"><option>Manhã</option><option>Tarde</option><option>Noite</option></select>
+            </div>
+            <div class="form-group full-col"><label>Diagnóstico de Enfermagem</label>
+              <input type="text" id="evolDiag" placeholder="Ex: Risco de integridade da pele..." autocapitalize="sentences">
+            </div>
+            <div class="form-group full-col"><label>Evolução / Descrição *</label>
+              <textarea id="evolTexto" style="min-height:110px" placeholder="Descreva o estado do paciente, intervenções e resposta..." autocapitalize="sentences"></textarea>
+            </div>
+            <div class="form-group full-col"><label>Prescrição de Enfermagem</label>
+              <textarea id="evolPrescricao" placeholder="Cuidados prescritos para o próximo turno..." autocapitalize="sentences"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-verde btn-full" onclick="salvarEvolucao()"><i class="fas fa-save"></i> Salvar Evolução</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3><i class="fas fa-history"></i> Histórico de Evoluções</h3></div>
+        <div class="card-body" id="listaEvolucoes"></div>
+      </div>
+    </div>
+
+    <!-- ===== ADMIN ===== -->
+    <div class="view" id="view-admin">
+      <div class="section-title"><i class="fas fa-users-cog"></i> Gerenciar Usuários <span class="admin-badge"><i class="fas fa-shield-alt"></i> Admin</span></div>
+      <div class="card">
+        <div class="card-header" style="border-bottom-color:#7c3aed;background:#f5f3ff">
+          <h3 style="color:#7c3aed"><i class="fas fa-user-plus"></i> Cadastrar Novo Usuário</h3>
+        </div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group full-col"><label>Nome Completo</label><input type="text" id="newUserNome" placeholder="Nome do enfermeiro(a)" autocapitalize="words"></div>
+            <div class="form-group"><label>Usuário (login)</label><input type="text" id="newUserLogin" placeholder="Ex: joao.silva" autocapitalize="none" autocomplete="off"></div>
+            <div class="form-group"><label>Senha</label><input type="password" id="newUserPass" placeholder="Mínimo 4 caracteres" autocomplete="new-password"></div>
+            <div class="form-group full-col"><label>Perfil</label>
+              <select id="newUserRole">
+                <option value="tecnico">Téc. de Enfermagem</option>
+                <option value="enfermeiro">Enfermeiro(a)</option>
+                <option value="fisio">Fisioterapeuta</option>
+                <option value="nutri">Nutricionista</option>
+                <option value="admin">Administrador — gerenciar usuários</option>
+                <option value="dev">Desenvolvedor — acesso total</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-full" style="background:#7c3aed;color:#fff" onclick="cadastrarUsuario()"><i class="fas fa-user-plus"></i> Cadastrar Usuário</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-title" style="margin-top:4px"><i class="fas fa-list"></i> Usuários Cadastrados</div>
+      <div id="listaUsuarios"></div>
+    </div>
+
+
+    <!-- FISIO ATENDIMENTOS -->
+    <div class="view" id="view-fisio">
+      <div class="section-title" style="color:var(--laranja-dark)"><i class="fas fa-running" style="color:var(--laranja)"></i> Atendimento Fisioterapêutico</div>
+      <div class="card">
+        <div class="card-header laranja"><h3><i class="fas fa-plus-circle"></i> Registrar Visita / Atendimento</h3></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group"><label>Data</label><input type="date" id="fisioData"></div>
+            <div class="form-group"><label>Hora</label><input type="time" id="fisioHora"></div>
+            <div class="form-group"><label>Fisioterapeuta / CREFITO</label><input type="text" id="fisioResp" placeholder="Nome / CREFITO" autocapitalize="words"></div>
+            <div class="form-group"><label>Turno</label>
+              <select id="fisioTurno"><option>Manhã</option><option>Tarde</option><option>Noite</option></select>
+            </div>
+            <div class="form-group full-col"><label>Tipo de Atendimento</label>
+              <select id="fisioTipo">
+                <option>Cinesioterapia (Exercícios Terapêuticos)</option>
+                <option>Fisioterapia Respiratória</option>
+                <option>Fisioterapia Neurológica</option>
+                <option>Mobilização Precoce / Reabilitação</option>
+                <option>Ventilação / Desmame VM</option>
+                <option>Higiene Brônquica</option>
+                <option>Avaliação Inicial</option>
+                <option>Reavaliação</option>
+                <option>Alta Fisioterapêutica</option>
+              </select>
+            </div>
+            <div class="form-group full-col"><label>Objetivos do Atendimento</label>
+              <input type="text" id="fisioObjetivos" placeholder="Ex: Melhora da expansão pulmonar, fortalecimento MMII..." autocapitalize="sentences">
+            </div>
+          </div>
+          <hr class="sep">
+          <div class="form-grid">
+            <div class="form-group"><label>Força Muscular (MRC)</label>
+              <select id="fisioMRC">
+                <option value="">— Selecione —</option>
+                <option>Grau 0 — Sem contração</option>
+                <option>Grau 1 — Contração s/ movimento</option>
+                <option>Grau 2 — Movimento sem gravidade</option>
+                <option>Grau 3 — Contra gravidade</option>
+                <option>Grau 4 — Contra resistência parcial</option>
+                <option>Grau 5 — Força normal</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Padrão Respiratório</label>
+              <select id="fisioPadResp">
+                <option value="">— Selecione —</option>
+                <option>Normal / Eupneico</option>
+                <option>Taquipneico</option>
+                <option>Bradipneico</option>
+                <option>Dispneico</option>
+                <option>Em uso de VM</option>
+                <option>Em VNI</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Nível Funcional (IMS)</label>
+              <select id="fisioIMS">
+                <option value="">— Selecione —</option>
+                <option>0 — Acamado sem movimentos</option>
+                <option>1 — Rolar no leito</option>
+                <option>2 — Sentar na beira do leito</option>
+                <option>3 — Transferência leito-cadeira</option>
+                <option>4 — Ortostatismo</option>
+                <option>5 — Deambulação com suporte</option>
+                <option>6 — Deambulação independente</option>
+              </select>
+            </div>
+            <div class="form-group"><label>SpO₂ (%)</label>
+              <input type="number" id="fisioSpo2" placeholder="98" min="60" max="100" inputmode="numeric">
+            </div>
+            <div class="form-group"><label>Tempo de Atendimento (min)</label>
+              <input type="number" id="fisioTempo" placeholder="30" min="5" inputmode="numeric">
+            </div>
+          </div>
+          <div class="form-grid-1">
+            <div class="form-group"><label>Técnicas e Procedimentos Realizados</label>
+              <textarea id="fisioTecnicas" style="min-height:70px" placeholder="Ex: Aspiração, incentivador inspiratório, exercícios de MMII..." autocapitalize="sentences"></textarea>
+            </div>
+            <div class="form-group"><label>Resposta do Paciente / Evolução *</label>
+              <textarea id="fisioResposta" style="min-height:90px" placeholder="Descreva a resposta do paciente, intercorrências, tolerância..." autocapitalize="sentences"></textarea>
+            </div>
+            <div class="form-group"><label>Conduta / Plano Próximo Atendimento</label>
+              <textarea id="fisioConduta" placeholder="Manter, progredir, suspender... próximos objetivos..." autocapitalize="sentences"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-laranja btn-full" onclick="salvarFisio()"><i class="fas fa-save"></i> Salvar Atendimento</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header laranja"><h3><i class="fas fa-history"></i> Histórico Fisioterapia</h3></div>
+        <div class="card-body" id="listaFisio"><div class="empty"><i class="fas fa-running"></i><p>Nenhum atendimento registrado</p></div></div>
+      </div>
+    </div>
+
+    <!-- FISIO EVOLUÇÃO -->
+    <div class="view" id="view-fisioEvo">
+      <div class="section-title" style="color:var(--laranja-dark)"><i class="fas fa-clipboard-list" style="color:var(--laranja)"></i> Evolução Fisioterapêutica</div>
+      <div class="card">
+        <div class="card-header laranja"><h3><i class="fas fa-plus-circle"></i> Nova Evolução Fisioterapêutica</h3></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group"><label>Data</label><input type="date" id="fisioEvoData"></div>
+            <div class="form-group"><label>Hora</label><input type="time" id="fisioEvoHora"></div>
+            <div class="form-group"><label>Fisioterapeuta / CREFITO</label><input type="text" id="fisioEvoResp" placeholder="Nome / CREFITO" autocapitalize="words"></div>
+            <div class="form-group"><label>Turno</label>
+              <select id="fisioEvoTurno"><option>Manhã</option><option>Tarde</option><option>Noite</option></select>
+            </div>
+            <div class="form-group full-col"><label>Diagnóstico Fisioterapêutico</label>
+              <input type="text" id="fisioEvoDiag" placeholder="Ex: Fraqueza muscular pós-UTI..." autocapitalize="sentences">
+            </div>
+            <div class="form-group full-col"><label>Evolução (SOAP) *</label>
+              <textarea id="fisioEvoTexto" style="min-height:120px" placeholder="S: Subjetivo&#10;O: Objetivo&#10;A: Avaliação&#10;P: Plano" autocapitalize="sentences"></textarea>
+            </div>
+            <div class="form-group full-col"><label>Prescrição Fisioterapêutica</label>
+              <textarea id="fisioEvoPrescricao" placeholder="Condutas e cuidados prescritos..." autocapitalize="sentences"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-laranja btn-full" onclick="salvarFisioEvo()"><i class="fas fa-save"></i> Salvar Evolução</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header laranja"><h3><i class="fas fa-history"></i> Histórico Evoluções Fisio</h3></div>
+        <div class="card-body" id="listaFisioEvo"><div class="empty"><i class="fas fa-clipboard-list"></i><p>Nenhuma evolução registrada</p></div></div>
+      </div>
+    </div>
+
+    <!-- NUTRI AVALIAÇÕES -->
+    <div class="view" id="view-nutri">
+      <div class="section-title" style="color:var(--roxo-dark)"><i class="fas fa-apple-alt" style="color:var(--roxo)"></i> Avaliação Nutricional</div>
+      <div class="card">
+        <div class="card-header roxo"><h3><i class="fas fa-plus-circle"></i> Registrar Avaliação Nutricional</h3></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group"><label>Data</label><input type="date" id="nutriData"></div>
+            <div class="form-group"><label>Hora</label><input type="time" id="nutriHora"></div>
+            <div class="form-group"><label>Nutricionista / CRN</label><input type="text" id="nutriResp" placeholder="Nome / CRN" autocapitalize="words"></div>
+            <div class="form-group"><label>Tipo</label>
+              <select id="nutriTipo">
+                <option>Avaliação Inicial</option><option>Reavaliação</option>
+                <option>Triagem Nutricional (NRS-2002)</option><option>Alta Nutricional</option>
+              </select>
+            </div>
+          </div>
+          <hr class="sep">
+          <p style="font-size:11px;font-weight:700;color:var(--roxo);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Dados Antropométricos</p>
+          <div class="form-grid">
+            <div class="form-group"><label>Peso Atual (kg)</label><input type="number" id="nutriPeso" placeholder="70.5" step="0.1" inputmode="decimal" onchange="calcIMC()"></div>
+            <div class="form-group"><label>Altura (m)</label><input type="number" id="nutriAltura" placeholder="1.70" step="0.01" inputmode="decimal" onchange="calcIMC()"></div>
+            <div class="form-group"><label>IMC (auto)</label><input type="text" id="nutriIMC" readonly style="background:var(--cinza-light)"></div>
+            <div class="form-group"><label>Classificação IMC</label><input type="text" id="nutriClassIMC" readonly style="background:var(--cinza-light)"></div>
+            <div class="form-group"><label>Peso Habitual (kg)</label><input type="number" id="nutriPesoHab" placeholder="75" step="0.1" onchange="calcIMC()"></div>
+            <div class="form-group"><label>% Perda Peso (auto)</label><input type="text" id="nutriPerdaPeso" readonly style="background:var(--cinza-light)"></div>
+          </div>
+          <hr class="sep">
+          <p style="font-size:11px;font-weight:700;color:var(--roxo);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px">Conduta Dietética</p>
+          <div class="form-grid">
+            <div class="form-group"><label>Via de Alimentação</label>
+              <select id="nutriVia">
+                <option>Via Oral</option><option>Enteral (SNE)</option><option>Enteral (GTT)</option>
+                <option>Parenteral (NPT)</option><option>Mista</option><option>Jejum</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Tipo de Dieta</label>
+              <select id="nutriTipoDieta">
+                <option>Dieta Geral</option><option>Dieta Branda</option><option>Dieta Pastosa</option>
+                <option>Dieta Líquida</option><option>Hipossódica</option><option>Hipocalórica</option>
+                <option>Hipercalórica</option><option>Hiperproteica</option><option>Diabética</option>
+                <option>Dieta Renal</option><option>Fórmula Enteral</option>
+              </select>
+            </div>
+            <div class="form-group"><label>VCT (kcal/dia)</label><input type="number" id="nutriVCT" placeholder="2000" inputmode="numeric"></div>
+            <div class="form-group"><label>Proteínas (g/kg/dia)</label><input type="number" id="nutriProteinas" placeholder="1.2" step="0.1"></div>
+            <div class="form-group full-col"><label>Fórmula / Volume</label><input type="text" id="nutriFormula" placeholder="Ex: Fresubin 2kcal — 1000mL em 20h" autocapitalize="sentences"></div>
+            <div class="form-group"><label>NRS-2002</label>
+              <select id="nutriNRS">
+                <option value="">— Selecione —</option>
+                <option>0 — Sem risco</option><option>1 — Risco leve</option>
+                <option>2 — Risco moderado</option><option>≥3 — Suporte indicado</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Estado Nutricional</label>
+              <select id="nutriEstado">
+                <option value="">— Selecione —</option>
+                <option>Eutrófico</option><option>Desnutrição Leve</option>
+                <option>Desnutrição Moderada</option><option>Desnutrição Grave</option>
+                <option>Sobrepeso</option><option>Obesidade I</option><option>Obesidade II</option>
+              </select>
+            </div>
+            <div class="form-group full-col"><label>Alergias / Intolerâncias</label>
+              <input type="text" id="nutriAlergias" placeholder="Ex: Intolerância à lactose..." autocapitalize="sentences">
+            </div>
+          </div>
+          <div class="form-grid-1">
+            <div class="form-group"><label>Avaliação / Observações</label>
+              <textarea id="nutriObs" style="min-height:80px" placeholder="Sinais de desnutrição, edema, aceitação alimentar..." autocapitalize="sentences"></textarea>
+            </div>
+            <div class="form-group"><label>Conduta / Prescrição Dietética</label>
+              <textarea id="nutriConduta" placeholder="Orientações, suplementações, modificações dietéticas..." autocapitalize="sentences"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-roxo btn-full" onclick="salvarNutri()"><i class="fas fa-save"></i> Salvar Avaliação Nutricional</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header roxo"><h3><i class="fas fa-history"></i> Histórico Avaliações Nutricionais</h3></div>
+        <div class="card-body" id="listaNutri"><div class="empty"><i class="fas fa-apple-alt"></i><p>Nenhuma avaliação registrada</p></div></div>
+      </div>
+    </div>
+
+    <!-- NUTRI EVOLUÇÃO -->
+    <div class="view" id="view-nutriEvo">
+      <div class="section-title" style="color:var(--roxo-dark)"><i class="fas fa-clipboard-list" style="color:var(--roxo)"></i> Evolução Nutricional</div>
+      <div class="card">
+        <div class="card-header roxo"><h3><i class="fas fa-plus-circle"></i> Nova Evolução Nutricional</h3></div>
+        <div class="card-body">
+          <div class="form-grid">
+            <div class="form-group"><label>Data</label><input type="date" id="nutriEvoData"></div>
+            <div class="form-group"><label>Hora</label><input type="time" id="nutriEvoHora"></div>
+            <div class="form-group"><label>Nutricionista / CRN</label><input type="text" id="nutriEvoResp" placeholder="Nome / CRN" autocapitalize="words"></div>
+            <div class="form-group"><label>Turno</label>
+              <select id="nutriEvoTurno"><option>Manhã</option><option>Tarde</option><option>Noite</option></select>
+            </div>
+            <div class="form-group full-col"><label>Aceitação Alimentar</label>
+              <select id="nutriEvoAceitacao">
+                <option value="">— Selecione —</option>
+                <option>100% — Aceitação total</option><option>75% — Boa aceitação</option>
+                <option>50% — Aceitação parcial</option><option>25% — Insuficiente</option>
+                <option>0% — Recusa total</option><option>Dieta enteral/parenteral</option>
+              </select>
+            </div>
+            <div class="form-group full-col"><label>Evolução Nutricional *</label>
+              <textarea id="nutriEvoTexto" style="min-height:120px" placeholder="S: Queixas, aceitação&#10;O: Dados, exames&#10;A: Diagnóstico nutricional&#10;P: Conduta" autocapitalize="sentences"></textarea>
+            </div>
+            <div class="form-group full-col"><label>Prescrição / Ajustes Dietéticos</label>
+              <textarea id="nutriEvoPrescricao" placeholder="Alterações na dieta, suplementações..." autocapitalize="sentences"></textarea>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn btn-roxo btn-full" onclick="salvarNutriEvo()"><i class="fas fa-save"></i> Salvar Evolução</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header roxo"><h3><i class="fas fa-history"></i> Histórico Evoluções Nutricionais</h3></div>
+        <div class="card-body" id="listaNutriEvo"><div class="empty"><i class="fas fa-clipboard-list"></i><p>Nenhuma evolução</p></div></div>
+      </div>
+    </div>
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ===== BOTTOM NAV ===== -->
+<div class="bottom-nav" id="bottomNav" style="display:none">
+  <button class="bn-item active" id="bn-dashboard" onclick="navTo('dashboard','nav-dashboard');setBnActive('bn-dashboard')">
+    <i class="fas fa-chart-line"></i><span>Início</span>
+  </button>
+  <button class="bn-item" id="bn-pacientes" onclick="navTo('pacientes','nav-pacientes');setBnActive('bn-pacientes')">
+    <i class="fas fa-users"></i><span>Pacientes</span>
+  </button>
+  <button class="bn-item" id="bn-sinais" onclick="navTo('sinais','nav-sinais');setBnActive('bn-sinais')">
+    <i class="fas fa-stethoscope"></i><span>Sinais</span>
+  </button>
+  <button class="bn-item" id="bn-fisio" style="display:none" onclick="navTo('fisio','nav-fisio');setBnActive('bn-fisio')">
+    <i class="fas fa-running"></i><span>Fisio</span>
+  </button>
+  <button class="bn-item" id="bn-nutri" style="display:none" onclick="navTo('nutri','nav-nutri');setBnActive('bn-nutri')">
+    <i class="fas fa-apple-alt"></i><span>Nutri</span>
+  </button>
+  <button class="bn-item" id="bn-evolucao" onclick="navTo('evolucao','nav-evolucao');setBnActive('bn-evolucao')">
+    <i class="fas fa-notes-medical"></i><span>Evolução</span>
+  </button>
+</div>
+
+<!-- ===== MODAL CONFIG CORES ===== -->
+<div class="modal-overlay" id="modalConfig">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header"><h2><i class="fas fa-palette"></i> Personalizar Cores</h2>
+      <button class="modal-close" onclick="closeModal('modalConfig')">×</button></div>
+    <div class="modal-body">
+      <p style="color:var(--texto-sec);margin-bottom:14px;font-size:13px">Personalize as cores do sistema. Alterações aplicadas imediatamente.</p>
+      <div class="color-row">
+        <input type="color" id="colorVerde" value="#1a7a3c" onchange="atualizarCor('verde',this.value)">
+        <div class="color-row-info">
+          <div class="cr-title">Cor Principal (Verde)</div>
+          <div class="cr-desc">Cabeçalhos, botões e destaques</div>
+        </div>
+      </div>
+      <div class="color-row">
+        <input type="color" id="colorAzul" value="#1565c0" onchange="atualizarCor('azul',this.value)">
+        <div class="color-row-info">
+          <div class="cr-title">Cor Secundária (Azul)</div>
+          <div class="cr-desc">HGT e seções informativas</div>
+        </div>
+      </div>
+      <div class="color-row">
+        <input type="color" id="colorVermelho" value="#c62828" onchange="atualizarCor('vermelho',this.value)">
+        <div class="color-row-info">
+          <div class="cr-title">Cor de Alerta (Vermelho)</div>
+          <div class="cr-desc">SVD, SNG e alertas críticos</div>
+        </div>
+      </div>
+      <div class="form-actions" style="margin-top:16px">
+        <button class="btn btn-outline" onclick="resetarCores()"><i class="fas fa-undo"></i> Restaurar</button>
+        <button class="btn btn-verde" onclick="closeModal('modalConfig')"><i class="fas fa-check"></i> Aplicar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL EDITAR ===== -->
+<div class="modal-overlay" id="modalEditar">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header" id="modalEditarHeader">
+      <h2 id="modalEditarTitle"><i class="fas fa-edit"></i> Editar</h2>
+      <button class="modal-close" onclick="closeModal('modalEditar')">×</button>
+    </div>
+    <div class="modal-body" id="modalEditarBody"></div>
+  </div>
+</div>
+
+<!-- ===== PDF PREVIEW ===== -->
+<div id="pdfPreview">
+  <div class="pdf-container">
+    <div class="pdf-toolbar">
+      <h3><i class="fas fa-file-pdf" style="margin-right:6px"></i> Prévia do Relatório</h3>
+      <div style="display:flex;gap:8px">
+        <button class="btn-header" onclick="baixarPDF()"><i class="fas fa-download"></i> Baixar PDF</button>
+        <button class="btn-header" onclick="document.getElementById('pdfPreview').classList.remove('open')"><i class="fas fa-times"></i></button>
+      </div>
+    </div>
+    <div id="pdfContent"></div>
+  </div>
+</div>
+
+<!-- NOTIFICAÇÃO -->
+<div class="notif" id="notif"></div>
+
+<script>
+const SUPA_URL = 'https://hztviennenwpxckfqlgv.supabase.co';
+const SUPA_KEY = 'sb_publishable_903u004C3nkdsZoF_SX_gQ_PlQ8xFWO';
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+async function sbInsert(table,row){var r=await supa.from(table).insert(row);if(r.error)console.error(table,r.error);}
+async function sbDelete(table,id){await supa.from(table).delete().eq('id',id);}
+async function sbUpdate(table,id,data){await supa.from(table).update(data).eq('id',id);}
+
+async function carregarTudo(){
+  try{
+    var [pacs,svs,hgts,decs,svds,gtts,snes,sngs,meds,evols,o2s]=await Promise.all([
+      supa.from('pacientes').select('*'),supa.from('sinais_vitais').select('*'),supa.from('hgt').select('*'),
+      supa.from('decubito').select('*'),supa.from('svd').select('*'),supa.from('gtt').select('*'),
+      supa.from('sne').select('*'),supa.from('sng').select('*'),supa.from('medicacoes').select('*'),
+      supa.from('evolucoes').select('*'),supa.from('oxigenio').select('*')
+    ]);
+    dados.pacientes=(pacs.data||[]).map(p=>({id:p.id,nome:p.nome,idade:p.idade,leito:p.leito,diagnostico:p.diagnostico,dataInt:p.data_int,medico:p.medico,acamado:p.acamado,obs:p.obs}));
+    dados.sinaisVitais=(svs.data||[]).map(r=>({id:r.id,pacienteId:r.paciente_id,data:r.data,horario:r.horario,hora:r.hora,pas:r.pas,pad:r.pad,fc:r.fc,fr:r.fr,temp:r.temp,spo2:r.spo2,dor:r.dor,obs:r.obs}));
+    dados.hgt=(hgts.data||[]).map(r=>({id:r.id,pacienteId:r.paciente_id,data:r.data,hora:r.hora,valor:r.valor,periodo:r.periodo,conduta:r.conduta,obs:r.obs}));
+    dados.decubito=(decs.data||[]).map(r=>({id:r.id,pacienteId:r.paciente_id,data:r.data,hora:r.hora,posicao:r.posicao,responsavel:r.responsavel,obs:r.obs}));
+    dados.svd=(svds.data||[]).map(r=>({id:r.id,pacienteId:r.paciente_id,data:r.data,hora:r.hora,svdDebito:r.svd_debito,svdCaract:r.svd_caract,svdSonda:r.svd_sonda,svdObs:r.svd_obs}));
+    dados.gtt=(gtts.data||[]).map(r=>({id:r.id,pacienteId:r.paciente_id,data:r.data,hora:r.hora,gttDieta:r.gtt_dieta,gttAgua:r.gtt_agua,gttVel:r.gtt_vel,gttResiduo:r.gtt_residuo,gttObs:r.gtt_obs}));
+    dados.sne=(snes.data||[]).map(r=>({id:r.id,pacienteId:r.paciente_id,data:r.data,hora:r.hora,sneDieta:r.sne_dieta,sneVel:r.sne_vel,snePosicao:r.sne_posicao,sneVerif:r.sne_verif,sneObs:r.sne_obs}));
+    dados.sng=(sngs.data||[]).map(r=>({id:r.id,pacienteId:r.paciente_id,data:r.data,hora:r.hora,sngDebito:r.sng_debito,sngCaract:r.sng_caract,sngPosicao:r.sng_posicao,sngObs:r.sng_obs}));
+    dados.medicacoes=(meds.data||[]).map(r=>({id:r.id,pacienteId:r.paciente_id,nome:r.nome,dose:r.dose,via:r.via,freq:r.freq,horarios:r.horarios,dataInicio:r.data_inicio,dataFim:r.data_fim,obs:r.obs}));
+    dados.evolucoes=(evols.data||[]).map(r=>({id:r.id,pacienteId:r.paciente_id,data:r.data,hora:r.hora,responsavel:r.responsavel,turno:r.turno,diagnostico:r.diagnostico,texto:r.texto,prescricao:r.prescricao}));
+    dados.oxigenio=(o2s.data||[]).map(r=>({id:r.id,pacienteId:r.paciente_id,data:r.data,hora:r.hora,dispositivo:r.dispositivo,fluxo:r.fluxo,fio2:r.fio2,spo2:r.spo2,motivo:r.motivo,responsavel:r.responsavel,obs:r.obs}));
+  }catch(e){console.error('Erro Supabase:',e);}
+}
+
+// ===== AUTH =====
+var authState={loggedIn:false,user:null,role:null,nome:null};
+var loginTabAtual='admin';
+var _nsUsuariosCarregado=false;
+
+function getUsuarios(){
+  if(!window._nsUsuarios||window._nsUsuarios.length===0)
+    return [{login:'admin',senha:'ns2024',role:'admin',nome:'Administrador',id:'admin0'}];
+  return window._nsUsuarios;
+}
+
+function setLoginTab(tab,el){
+  loginTabAtual=tab;
+  document.querySelectorAll('.login-tab').forEach(function(b){b.classList.remove('active');});
+  if(el)el.classList.add('active');
+  var hints={admin:'Admin padrão: <b>admin</b> / <b>ns2024</b>',dev:'Login de <b>Desenvolvedor</b> cadastrado pelo admin.',usuario:'Login de <b>Enfermeiro(a)</b> cadastrado pelo admin.',tecnico:'Login de <b>Técnico de Enfermagem</b> cadastrado pelo admin.',fisio:'Login de <b>Fisioterapeuta</b> cadastrado pelo admin.',nutri:'Login de <b>Nutricionista</b> cadastrado pelo admin.'};
+  var hint=document.getElementById('loginHint');
+  if(hint)hint.innerHTML=hints[tab]||'';
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginError').classList.remove('show');
+}
+
+function doLogin(){
+  var login=document.getElementById('loginUser').value.trim().toLowerCase();
+  var senha=document.getElementById('loginPass').value;
+  var errEl=document.getElementById('loginError');
+  var errMsg=document.getElementById('loginErrorMsg');
+  if(!login||!senha){errMsg.textContent='Preencha usuário e senha.';errEl.classList.add('show');return;}
+  var usuarios=getUsuarios();
+  var user=null;
+  for(var i=0;i<usuarios.length;i++){
+    if(usuarios[i].login.toLowerCase()===login&&usuarios[i].senha===senha){user=usuarios[i];break;}
+  }
+  if(!user){errMsg.textContent='Usuário ou senha incorretos.';errEl.classList.add('show');document.getElementById('loginPass').value='';return;}
+  var tabMap={admin:['admin'],dev:['dev'],usuario:['enfermeiro','admin','dev'],tecnico:['tecnico'],fisio:['fisio','admin','dev'],nutri:['nutri','admin','dev']};
+  var allowed=tabMap[loginTabAtual]||[];
+  if(!allowed.includes(user.role)){errMsg.textContent='Perfil não corresponde à aba selecionada.';errEl.classList.add('show');return;}
+  errEl.classList.remove('show');
+  authState={loggedIn:true,user:user.login,role:user.role,nome:user.nome};
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('mainHeader').style.display='flex';
+  document.getElementById('mainApp').style.display='block';
+  document.getElementById('bottomNav').style.display='flex';
+  var labels={admin:'Administrador',dev:'Desenvolvedor',enfermeiro:'Enfermeiro(a)',tecnico:'Téc. Enfermagem',fisio:'Fisioterapeuta',nutri:'Nutricionista'};
+  document.getElementById('headerUserInfo').innerHTML='<strong>'+user.nome+'</strong> '+(labels[user.role]||user.role);
+  document.getElementById('sidebarName').textContent=user.nome;
+  document.getElementById('sidebarRole').textContent=labels[user.role]||user.role;
+  var isAdmin=(user.role==='admin');
+  var isDev=(user.role==='dev');
+  var isFisio=(user.role==='fisio'||isAdmin||isDev);
+  var isNutri=(user.role==='nutri'||isAdmin||isDev);
+  document.getElementById('navAdminSection').style.display=(isAdmin||isDev)?'block':'none';
+  document.getElementById('navDevSection').style.display=isDev?'block':'none';
+  document.getElementById('navFisioSection').style.display=isFisio?'block':'none';
+  document.getElementById('navNutriSection').style.display=isNutri?'block':'none';
+  var bFisio=document.getElementById('bn-fisio');
+  var bNutri=document.getElementById('bn-nutri');
+  if(bFisio)bFisio.style.display=isFisio?'flex':'none';
+  if(bNutri)bNutri.style.display=isNutri?'flex':'none';
+  init();
+}
+
+function logout(){
+  if(!confirm('Deseja sair do sistema?'))return;
+  authState={loggedIn:false,user:null,role:null,nome:null};
+  loginTabAtual='admin';
+  document.querySelectorAll('.login-tab').forEach(function(b,i){b.classList.toggle('active',i===0);});
+  document.getElementById('loginHint').innerHTML='Admin padrão: <b>admin</b> / <b>ns2024</b>';
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('mainHeader').style.display='none';
+  document.getElementById('mainApp').style.display='none';
+  document.getElementById('bottomNav').style.display='none';
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginError').classList.remove('show');
+  ['navAdminSection','navDevSection','navFisioSection','navNutriSection'].forEach(function(id){
+    var el=document.getElementById(id);if(el)el.style.display='none';
+  });
+  pacienteAtual=null;
+}
+
+// ===== ADMIN USUÁRIOS =====
+async function cadastrarUsuario(){
+  var nome=document.getElementById('newUserNome').value.trim();
+  var login=document.getElementById('newUserLogin').value.trim().toLowerCase();
+  var senha=document.getElementById('newUserPass').value;
+  var role=document.getElementById('newUserRole').value;
+  if(!nome||!login||!senha){notif('Preencha todos os campos!','erro');return;}
+  if(senha.length<4){notif('Senha deve ter pelo menos 4 caracteres.','erro');return;}
+  var usuarios=getUsuarios();
+  if(usuarios.find(function(u){return u.login.toLowerCase()===login;})){notif('Usuário já existe!','erro');return;}
+  var newUser={id:uid(),login:login,senha:senha,nome:nome,role:role};
+  await sbInsert('usuarios',newUser);
+  window._nsUsuarios=window._nsUsuarios||[];window._nsUsuarios.push(newUser);
+  ['newUserNome','newUserLogin','newUserPass'].forEach(function(id){document.getElementById(id).value='';});
+  renderListaUsuarios();notif('Usuário cadastrado com sucesso!');
+}
+
+async function excluirUsuario(id){
+  if(id==='admin0'){notif('Admin padrão não pode ser excluído.','erro');return;}
+  if(!confirm('Excluir este usuário?'))return;
+  await sbDelete('usuarios',id);
+  window._nsUsuarios=(window._nsUsuarios||[]).filter(function(u){return u.id!==id;});
+  renderListaUsuarios();notif('Usuário excluído.');
+}
+
+function renderListaUsuarios(){
+  var el=document.getElementById('listaUsuarios');
+  var usuarios=getUsuarios();
+  if(!usuarios.length){el.innerHTML='<div class="empty"><i class="fas fa-users"></i><p>Nenhum usuário</p></div>';return;}
+  var icons={admin:'shield-alt',dev:'code',enfermeiro:'user-nurse',tecnico:'user-md',fisio:'running',nutri:'apple-alt'};
+  var colors={admin:'#7c3aed',dev:'#1d4ed8',enfermeiro:'#1a7a3c',tecnico:'#1565c0',fisio:'#d97706',nutri:'#7c3aed'};
+  var labels={admin:'Administrador',dev:'Desenvolvedor',enfermeiro:'Enfermeiro(a)',tecnico:'Téc. Enfermagem',fisio:'Fisioterapeuta',nutri:'Nutricionista'};
+  el.innerHTML=usuarios.map(function(u){
+    var icon=icons[u.role]||'user';
+    var color=colors[u.role]||'#7f8c9a';
+    var label=labels[u.role]||u.role;
+    var del=u.id!=='admin0'?'<button class="btn btn-sm btn-vermelho btn-icon" onclick="excluirUsuario(\''+u.id+'\')"><i class="fas fa-trash"></i></button>':'<span style="font-size:11px;color:var(--cinza)">Padrão</span>';
+    return '<div class="user-card"><div class="user-card-info"><div class="u-name"><i class="fas fa-'+icon+'" style="color:'+color+'"></i> '+u.nome+'</div><div class="u-role">@'+u.login+' &middot; <b style="color:'+color+'">'+label+'</b></div></div>'+del+'</div>';
+  }).join('');
+}
+
+// ===== SIDEBAR =====
+function toggleSidebar(){var sb=document.getElementById('sidebar'),hb=document.getElementById('hamburger'),ov=document.getElementById('overlay'),isOpen=sb.classList.contains('open');sb.classList.toggle('open',!isOpen);hb.classList.toggle('open',!isOpen);ov.classList.toggle('open',!isOpen);}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('hamburger').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
+
+// ===== NAV =====
+function navTo(view,navId){showView(view);setSidebarActive(navId);closeSidebar();}
+function setBnActive(id){document.querySelectorAll('.bn-item').forEach(function(el){el.classList.remove('active');});var el=document.getElementById(id);if(el)el.classList.add('active');}
+
+// ===== STATE =====
+var dados={pacientes:[],sinaisVitais:[],hgt:[],decubito:[],svd:[],gtt:[],sne:[],sng:[],medicacoes:[],evolucoes:[],oxigenio:[],fisio:[],fisioEvo:[],nutri:[],nutriEvo:[]};
+var pacienteAtual=null;
+var editandoId=null;
+var editandoTipo=null;
+var decubitoSelecionado='';
+
+function selecionarDecubito(el,posicao){
+  document.querySelectorAll('.dec-btn').forEach(function(btn){btn.classList.remove('active');});
+  el.classList.add('active');
+  decubitoSelecionado=posicao;
+  document.getElementById('decPosicao').value=posicao;
+}
+
+async function salvarDecubito(){
+  if(!pacienteAtual){notif('Selecione um paciente!','erro');return;}
+  if(!decubitoSelecionado){notif('Selecione uma posição!','erro');return;}
+  var r={id:uid(),pacienteId:pacienteAtual,data:document.getElementById('decData').value||hoje(),hora:document.getElementById('decHora').value||agoraHora(),posicao:decubitoSelecionado,responsavel:document.getElementById('decResp').value,obs:document.getElementById('decObs').value};
+  await sbInsert('decubito',{id:r.id,paciente_id:r.pacienteId,data:r.data,hora:r.hora,posicao:r.posicao,responsavel:r.responsavel,obs:r.obs});
+  dados.decubito.push(r);
+  document.querySelectorAll('.dec-btn').forEach(function(btn){btn.classList.remove('active');});
+  document.getElementById('decResp').value='';
+  document.getElementById('decObs').value='';
+  document.getElementById('decPosicao').value='';
+  decubitoSelecionado='';
+  renderTabelaDec();notif('Mudança de decúbito registrada!');
+}
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2);}
+function hoje(){return new Date().toISOString().split('T')[0];}
+function agoraHora(){return new Date().toTimeString().slice(0,5);}
+function fmtData(d){if(!d)return '—';var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+
+// ===== UI =====
+function showView(v){
+  document.querySelectorAll('.view').forEach(function(el){el.classList.remove('active');});
+  var vEl=document.getElementById('view-'+v);
+  if(vEl)vEl.classList.add('active');
+  var withPac=['sinais','hgt','decubito','dispositivos','oxigenio','medicacoes','evolucao','fisio','fisioEvo','nutri','nutriEvo'];
+  document.getElementById('pacienteBar').style.display=withPac.indexOf(v)>=0?'block':'none';
+  if(withPac.indexOf(v)>=0)renderTabelasView(v);
+  if(v==='dashboard')renderDashboard();
+  if(v==='pacientes')renderPacientes();
+  if(v==='admin')renderListaUsuarios();
+  document.getElementById('mainApp').scrollTop=0;
+}
+
+function setSidebarActive(id){
+  document.querySelectorAll('.sidebar-item').forEach(function(el){el.classList.remove('active');});
+  var el=document.getElementById(id);if(el)el.classList.add('active');
+}
+
+function notif(msg,tipo){
+  tipo=tipo||'ok';
+  var el=document.getElementById('notif');
+  el.innerHTML='<i class="fas fa-'+(tipo==='ok'?'check-circle':'exclamation-circle')+'"></i> '+msg;
+  el.className='notif show'+(tipo==='erro'?' error':'');
+  setTimeout(function(){el.classList.remove('show');},3000);
+}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+
+// ===== PACIENTES =====
+async function salvarPaciente(){
+  var nome=document.getElementById('pacNome').value.trim();
+  if(!nome){notif('Informe o nome do paciente','erro');return;}
+  var pac={id:uid(),nome:nome,idade:document.getElementById('pacIdade').value||'—',leito:document.getElementById('pacLeito').value||'—',diagnostico:document.getElementById('pacDiagnostico').value||'',dataInt:document.getElementById('pacDataInt').value||hoje(),medico:document.getElementById('pacMedico').value||'',acamado:document.getElementById('pacAcamado').value,obs:document.getElementById('pacObs').value||''};
+  await sbInsert('pacientes',{id:pac.id,nome:pac.nome,idade:pac.idade,leito:pac.leito,diagnostico:pac.diagnostico,data_int:pac.dataInt,medico:pac.medico,acamado:pac.acamado,obs:pac.obs});
+  dados.pacientes.push(pac);
+  ['pacNome','pacIdade','pacLeito','pacDiagnostico','pacMedico','pacObs'].forEach(function(id){document.getElementById(id).value='';});
+  document.getElementById('pacDataInt').value='';document.getElementById('pacAcamado').value='nao';
+  renderPacientes();atualizarSeletorPacientes();notif('Paciente cadastrado com sucesso!');
+}
+
+function renderPacientes(){
+  var el=document.getElementById('listaPacientes');
+  if(!dados.pacientes.length){el.innerHTML='<div class="empty"><i class="fas fa-users"></i><p>Nenhum paciente cadastrado</p></div>';return;}
+  var html='';
+  dados.pacientes.forEach(function(p){
+    var sel=pacienteAtual===p.id?' selected':'';
+    html+='<div class="pac-card'+sel+'" onclick="selecionarPaciente(\''+p.id+'\')">';
+    html+='<div class="pac-name">'+p.nome+'</div>';
+    html+='<div style="font-size:12px;color:var(--cinza);margin-top:2px;margin-left:4px">'+(p.diagnostico||'Sem diagnóstico')+'</div>';
+    html+='<div class="pac-info">';
+    html+='<span><i class="fas fa-birthday-cake"></i> '+p.idade+' anos</span>';
+    html+='<span><i class="fas fa-bed"></i> Leito '+p.leito+'</span>';
+    if(p.acamado==='sim')html+='<span><i class="fas fa-procedures"></i> Acamado</span>';
+    html+='</div>';
+    html+='<div class="pac-actions">';
+    html+='<button class="btn btn-sm btn-verde" onclick="event.stopPropagation();selecionarPaciente(\''+p.id+'\');navTo(\'sinais\',\'nav-sinais\');setBnActive(\'bn-sinais\')"><i class="fas fa-stethoscope"></i> Registrar</button>';
+    html+='<button class="btn btn-sm btn-outline" onclick="event.stopPropagation();editarPaciente(\''+p.id+'\')"><i class="fas fa-edit"></i></button>';
+    html+='<button class="btn btn-sm btn-vermelho" onclick="event.stopPropagation();excluirPaciente(\''+p.id+'\')"><i class="fas fa-trash"></i></button>';
+    html+='</div></div>';
+  });
+  el.innerHTML=html;
+}
+
+function selecionarPaciente(id){
+  pacienteAtual=id;
+  var pac=dados.pacientes.find(function(p){return p.id===id;});
+  document.getElementById('pacienteSelector').value=id;
+  document.getElementById('badgePacienteText').textContent=pac.nome+' | Leito '+pac.leito;
+  document.getElementById('badgePaciente').style.display='inline-flex';
+  renderPacientes();
+}
+
+function onPacienteSelect(){var v=document.getElementById('pacienteSelector').value;if(v)selecionarPaciente(v);}
+
+async function excluirPaciente(id){
+  if(!confirm('Excluir este paciente e todos os seus registros?'))return;
+  await sbDelete('pacientes',id);
+  dados.pacientes=dados.pacientes.filter(function(p){return p.id!==id;});
+  ['sinaisVitais','hgt','decubito','svd','gtt','sne','sng','medicacoes','evolucoes','oxigenio','fisio','fisioEvo','nutri','nutriEvo'].forEach(function(k){dados[k]=dados[k].filter(function(r){return r.pacienteId!==id;});});
+  if(pacienteAtual===id){pacienteAtual=null;document.getElementById('badgePaciente').style.display='none';}
+  renderPacientes();atualizarSeletorPacientes();notif('Paciente excluído.');
+}
+
+function editarPaciente(id){
+  var p=dados.pacientes.find(function(x){return x.id===id;});
+  editandoId=id;editandoTipo='paciente';
+  document.getElementById('modalEditarTitle').innerHTML='<i class="fas fa-user-edit"></i> Editar Paciente';
+  document.getElementById('modalEditarHeader').className='modal-header';
+  document.getElementById('modalEditarBody').innerHTML='<div class="form-grid"><div class="form-group full-col"><label>Nome</label><input type="text" id="ep_nome" value="'+p.nome+'" autocapitalize="words"></div><div class="form-group"><label>Idade</label><input type="number" id="ep_idade" value="'+p.idade+'" inputmode="numeric"></div><div class="form-group"><label>Leito</label><input type="text" id="ep_leito" value="'+p.leito+'" autocapitalize="characters"></div><div class="form-group full-col"><label>Diagnóstico</label><input type="text" id="ep_diag" value="'+(p.diagnostico||'')+'" autocapitalize="sentences"></div><div class="form-group"><label>Médico</label><input type="text" id="ep_medico" value="'+(p.medico||'')+'" autocapitalize="words"></div><div class="form-group"><label>Acamado</label><select id="ep_acamado"><option value="nao" '+(p.acamado==='nao'?'selected':'')+'>Não</option><option value="sim" '+(p.acamado==='sim'?'selected':'')+'>Sim</option></select></div><div class="form-group full-col"><label>Observações</label><textarea id="ep_obs" autocapitalize="sentences">'+(p.obs||'')+'</textarea></div></div><div class="form-actions"><button class="btn btn-verde btn-full" onclick="salvarEdicao()"><i class="fas fa-save"></i> Salvar</button></div>';
+  openModal('modalEditar');
+}
+
+function atualizarSeletorPacientes(){
+  var sel=document.getElementById('pacienteSelector');
+  var cur=sel.value;
+  sel.innerHTML='<option value="">— Selecione o paciente —</option>'+dados.pacientes.map(function(p){return '<option value="'+p.id+'" '+(cur===p.id?'selected':'')+'>'+p.nome+' (Leito '+p.leito+')</option>';}).join('');
+}
+
+// ===== SINAIS VITAIS =====
+async function salvarSinaisVitais(){
+  if(!pacienteAtual){notif('Selecione um paciente!','erro');return;}
+  var r={id:uid(),pacienteId:pacienteAtual,data:document.getElementById('svData').value||hoje(),horario:document.getElementById('svHorario').value,hora:document.getElementById('svHora').value||agoraHora(),pas:document.getElementById('svPAS').value,pad:document.getElementById('svPAD').value,fc:document.getElementById('svFC').value,fr:document.getElementById('svFR').value,temp:document.getElementById('svTemp').value,spo2:document.getElementById('svSPO2').value,dor:document.getElementById('svDor').value,obs:document.getElementById('svObs').value};
+  await sbInsert('sinais_vitais',{id:r.id,paciente_id:r.pacienteId,data:r.data,horario:r.horario,hora:r.hora,pas:r.pas,pad:r.pad,fc:r.fc,fr:r.fr,temp:r.temp,spo2:r.spo2,dor:r.dor,obs:r.obs});
+  dados.sinaisVitais.push(r);
+  ['svPAS','svPAD','svFC','svFR','svTemp','svSPO2','svDor','svObs'].forEach(function(id){document.getElementById(id).value='';});
+  renderTabelaSV();notif('Sinais vitais registrados!');
+}
+
+function renderTabelaSV(){
+  var el=document.getElementById('tabelaSinais');
+  var recs=dados.sinaisVitais.filter(function(r){return r.pacienteId===pacienteAtual;}).reverse();
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-stethoscope"></i><p>Nenhum registro</p></div>';return;}
+  var h='<table><thead><tr><th>Data</th><th>Turno</th><th>Hora</th><th>PA</th><th>FC</th><th>FR</th><th>Temp</th><th>SpO₂</th><th>Dor</th><th>Obs</th><th>Ações</th></tr></thead><tbody>';
+  recs.forEach(function(r){
+    h+='<tr><td>'+fmtData(r.data)+'</td><td>'+r.horario+'</td><td>'+r.hora+'</td>';
+    h+='<td><b>'+(r.pas||'—')+'/'+(r.pad||'—')+'</b></td><td>'+(r.fc||'—')+'</td><td>'+(r.fr||'—')+'</td>';
+    h+='<td>'+(r.temp?r.temp+'°C':'—')+'</td><td>'+(r.spo2?r.spo2+'%':'—')+'</td><td>'+(r.dor||'0')+'/10</td>';
+    h+='<td>'+(r.obs||'—')+'</td>';
+    h+='<td><button class="btn btn-sm btn-outline btn-icon" onclick="excluirRegistro(\'sinaisVitais\',\''+r.id+'\',renderTabelaSV)"><i class="fas fa-trash"></i></button></td></tr>';
+  });
+  el.innerHTML=h+'</tbody></table>';
+}
+
+function renderTabelaHGT(){
+  var el=document.getElementById('tabelaHGT');
+  var recs=dados.hgt.filter(function(r){return r.pacienteId===pacienteAtual;}).reverse();
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-tint"></i><p>Nenhum registro</p></div>';return;}
+  var h='<table><thead><tr><th>Data</th><th>Hora</th><th>Glicemia</th><th>Período</th><th>Conduta</th><th>Obs</th><th>Ações</th></tr></thead><tbody>';
+  recs.forEach(function(r){
+    var v=Number(r.valor);var c=v<70?'var(--vermelho)':v>180?'#e65100':'var(--verde)';
+    h+='<tr><td>'+fmtData(r.data)+'</td><td>'+r.hora+'</td>';
+    h+='<td style="font-weight:700;color:'+c+'">'+r.valor+' mg/dL</td>';
+    h+='<td>'+r.periodo+'</td><td>'+(r.conduta||'—')+'</td><td>'+(r.obs||'—')+'</td>';
+    h+='<td><button class="btn btn-sm btn-outline btn-icon" onclick="excluirRegistro(\'hgt\',\''+r.id+'\',renderTabelaHGT)"><i class="fas fa-trash"></i></button></td></tr>';
+  });
+  el.innerHTML=h+'</tbody></table>';
+}
+
+function renderTabelaDec(){
+  var el=document.getElementById('tabelaDecubito');
+  var recs=dados.decubito.filter(function(r){return r.pacienteId===pacienteAtual;}).reverse();
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-bed"></i><p>Nenhum registro</p></div>';return;}
+  var h='<table><thead><tr><th>Data</th><th>Hora</th><th>Posição</th><th>Responsável</th><th>Obs</th><th>Ações</th></tr></thead><tbody>';
+  recs.forEach(function(r){
+    h+='<tr><td>'+fmtData(r.data)+'</td><td>'+r.hora+'</td>';
+    h+='<td><span class="badge badge-verde"><i class="fas fa-bed"></i> '+r.posicao+'</span></td>';
+    h+='<td>'+(r.responsavel||'—')+'</td><td>'+(r.obs||'—')+'</td>';
+    h+='<td><button class="btn btn-sm btn-outline btn-icon" onclick="excluirRegistro(\'decubito\',\''+r.id+'\',renderTabelaDec)"><i class="fas fa-trash"></i></button></td></tr>';
+  });
+  el.innerHTML=h+'</tbody></table>';
+}
+
+function showDispTab(tab,btn){
+  ['svd','gtt','sne','sng'].forEach(function(t){document.getElementById('tab-'+t).style.display=t===tab?'':'none';});
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  renderTabelaDisp(tab);
+}
+
+async function salvarDispositivo(tipo){
+  if(!pacienteAtual){notif('Selecione um paciente!','erro');return;}
+  var r={id:uid(),pacienteId:pacienteAtual};
+  var fs=document.querySelectorAll('#tab-'+tipo+' input, #tab-'+tipo+' select');
+  fs.forEach(function(el){r[el.id]=el.value;});
+  r.data=r[tipo+'Data']||hoje();r.hora=r[tipo+'Hora']||agoraHora();
+  var dbRow={id:r.id,paciente_id:r.pacienteId,data:r.data,hora:r.hora};
+  if(tipo==='svd'){dbRow.svd_debito=r.svdDebito;dbRow.svd_caract=r.svdCaract;dbRow.svd_sonda=r.svdSonda;dbRow.svd_obs=r.svdObs;}
+  if(tipo==='gtt'){dbRow.gtt_dieta=r.gttDieta;dbRow.gtt_agua=r.gttAgua;dbRow.gtt_vel=r.gttVel;dbRow.gtt_residuo=r.gttResiduo;dbRow.gtt_obs=r.gttObs;}
+  if(tipo==='sne'){dbRow.sne_dieta=r.sneDieta;dbRow.sne_vel=r.sneVel;dbRow.sne_posicao=r.snePosicao;dbRow.sne_verif=r.sneVerif;dbRow.sne_obs=r.sneObs;}
+  if(tipo==='sng'){dbRow.sng_debito=r.sngDebito;dbRow.sng_caract=r.sngCaract;dbRow.sng_posicao=r.sngPosicao;dbRow.sng_obs=r.sngObs;}
+  await sbInsert(tipo,dbRow);
+  dados[tipo].push(r);
+  fs.forEach(function(el){if(el.type!=='date')el.value='';});
+  renderTabelaDisp(tipo);notif(tipo.toUpperCase()+' registrado!');
+}
+
+function renderTabelaDisp(tipo){
+  var el=document.getElementById('tabela'+tipo.toUpperCase());
+  if(!el)return;
+  var recs=dados[tipo].filter(function(r){return r.pacienteId===pacienteAtual;}).reverse();
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-procedures"></i><p>Nenhum registro</p></div>';return;}
+  var headers={svd:['Data','Hora','Débito (mL)','Característica','Sonda','Obs'],gtt:['Data','Hora','Dieta (mL)','Água (mL)','Velocidade','Resíduo','Obs'],sne:['Data','Hora','Dieta (mL)','Velocidade','Posição','Verificação','Obs'],sng:['Data','Hora','Débito (mL)','Característica','Posição','Obs']};
+  var keys={svd:['svdData','svdHora','svdDebito','svdCaract','svdSonda','svdObs'],gtt:['gttData','gttHora','gttDieta','gttAgua','gttVel','gttResiduo','gttObs'],sne:['sneData','sneHora','sneDieta','sneVel','snePosicao','sneVerif','sneObs'],sng:['sngData','sngHora','sngDebito','sngCaract','sngPosicao','sngObs']};
+  el.innerHTML='<table><thead><tr>'+headers[tipo].map(function(h){return '<th>'+h+'</th>';}).join('')+'<th>Ações</th></tr></thead><tbody>'+
+    recs.map(function(r){return '<tr>'+keys[tipo].map(function(k,i){return '<td>'+(i===0?fmtData(r[k]):(r[k]||'—'))+'</td>';}).join('')+
+      '<td><button class="btn btn-sm btn-outline btn-icon" onclick="excluirRegistro(\'+tipo+\',\'+r.id+\',function(){renderTabelaDisp(\'+tipo+\')})"><i class="fas fa-trash"></i></button></td></tr>';}).join('')+
+    '</tbody></table>';
+}
+
+// ===== OXIGENIOTERAPIA =====
+var o2Info={cateter_nasal:{fio2:{1:24,2:28,3:32,4:36,5:40,6:44},info:'Cateter Nasal: FiO₂ ≈ 20% + 4% por L/min. Máx. 6 L/min.'},mascara_simples:{fio2:{5:35,6:40,7:45,8:50,9:55,10:60},info:'Máscara Simples: FiO₂ entre 35–60%. Fluxo mínimo 5 L/min.'},mascara_reservatorio:{fio2:{6:60,7:70,8:80,9:90,10:95,12:99,15:99},info:'Máscara c/ Reservatório: FiO₂ até 95-99%. Mínimo 6 L/min.'},mascara_venturi:{fio2:{2:24,4:28,6:31,8:35,10:40,15:60},info:'Máscara de Venturi: FiO₂ precisa. Ideal para DPOC.'},tenda_o2:{fio2:{},info:'Tenda de O₂: Principalmente em pediatria.'},vmi:{fio2:{},info:'Ventilação Mecânica: FiO₂ 21–100%. Registrar parâmetros.'},vni:{fio2:{},info:'VNI (CPAP/BiPAP): Registrar pressões IPAP/EPAP.'},alto_fluxo:{fio2:{},info:'Alto Fluxo: até 60 L/min, FiO₂ até 100%.'}};
+
+function atualizarInfoO2(){
+  var disp=document.getElementById('o2Dispositivo').value;
+  var fluxo=parseInt(document.getElementById('o2Fluxo').value);
+  var info=o2Info[disp];
+  var box=document.getElementById('o2InfoBox');
+  var fio2El=document.getElementById('o2FiO2');
+  if(info){
+    var fio2val=info.fio2[fluxo];
+    if(!fio2val){var keys2=Object.keys(info.fio2).map(Number).sort(function(a,b){return a-b;});var below=keys2.filter(function(k){return k<=fluxo;}).pop();var above=keys2.filter(function(k){return k>fluxo;}).shift();if(below&&above)fio2val=Math.round(info.fio2[below]+(info.fio2[above]-info.fio2[below])*(fluxo-below)/(above-below));else if(below)fio2val=info.fio2[below];else if(above)fio2val=info.fio2[above];}
+    fio2El.value=fio2val?fio2val+'%':'—';
+    box.style.display='block';document.getElementById('o2InfoTexto').textContent=info.info;
+  }else{fio2El.value='';box.style.display='none';}
+}
+
+async function salvarO2(){
+  if(!pacienteAtual){notif('Selecione um paciente!','erro');return;}
+  var dispLabel=document.getElementById('o2Dispositivo').options[document.getElementById('o2Dispositivo').selectedIndex].text;
+  var r={id:uid(),pacienteId:pacienteAtual,data:document.getElementById('o2Data').value||hoje(),hora:document.getElementById('o2Hora').value||agoraHora(),dispositivo:dispLabel,fluxo:document.getElementById('o2Fluxo').value,fio2:document.getElementById('o2FiO2').value,spo2:document.getElementById('o2Spo2').value,motivo:document.getElementById('o2Motivo').value,responsavel:document.getElementById('o2Resp').value,obs:document.getElementById('o2Obs').value};
+  await sbInsert('oxigenio',{id:r.id,paciente_id:r.pacienteId,data:r.data,hora:r.hora,dispositivo:r.dispositivo,fluxo:r.fluxo,fio2:r.fio2,spo2:r.spo2,motivo:r.motivo,responsavel:r.responsavel,obs:r.obs});
+  dados.oxigenio.push(r);
+  ['o2Spo2','o2Motivo','o2Resp','o2Obs'].forEach(function(id){document.getElementById(id).value='';});
+  renderTabelaO2();notif('Registro de O₂ salvo!');
+}
+
+function renderTabelaO2(){
+  var el=document.getElementById('tabelaO2');
+  if(!el)return;
+  var recs=dados.oxigenio.filter(function(r){return r.pacienteId===pacienteAtual;}).reverse();
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-wind"></i><p>Nenhum registro de O₂</p></div>';return;}
+  var h='<table><thead><tr><th>Data/Hora</th><th>Dispositivo</th><th>Fluxo</th><th>FiO₂</th><th>SpO₂</th><th>Motivo</th><th>Resp.</th><th>Obs</th><th>Ações</th></tr></thead><tbody>';
+  recs.forEach(function(r){
+    h+='<tr><td>'+fmtData(r.data)+' '+r.hora+'</td>';
+    h+='<td><span class="badge badge-azul"><i class="fas fa-wind"></i> '+r.dispositivo+'</span></td>';
+    h+='<td><b>'+r.fluxo+' L/min</b></td><td>'+(r.fio2||'—')+'</td><td>'+(r.spo2?r.spo2+'%':'—')+'</td>';
+    h+='<td>'+(r.motivo||'—')+'</td><td>'+(r.responsavel||'—')+'</td><td>'+(r.obs||'—')+'</td>';
+    h+='<td><button class="btn btn-sm btn-outline btn-icon" onclick="excluirRegistro(\'oxigenio\',\''+r.id+'\',renderTabelaO2)"><i class="fas fa-trash"></i></button></td></tr>';
+  });
+  el.innerHTML=h+'</tbody></table>';
+}
+
+function renderTabelaMed(){
+  var el=document.getElementById('tabelaMedicacoes');
+  var recs=dados.medicacoes.filter(function(r){return r.pacienteId===pacienteAtual;});
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-pills"></i><p>Nenhuma medicação</p></div>';return;}
+  var h='<table><thead><tr><th>Medicamento</th><th>Dose</th><th>Via</th><th>Frequência</th><th>Horários</th><th>Início</th><th>Fim</th><th>Obs</th><th>Ações</th></tr></thead><tbody>';
+  recs.forEach(function(r){
+    h+='<tr><td><b>'+r.nome+'</b></td><td>'+(r.dose||'—')+'</td>';
+    h+='<td><span class="badge badge-azul">'+r.via+'</span></td>';
+    h+='<td>'+r.freq+'</td><td>'+(r.horarios||'—')+'</td>';
+    h+='<td>'+fmtData(r.dataInicio)+'</td><td>'+(r.dataFim?fmtData(r.dataFim):'Contínuo')+'</td>';
+    h+='<td>'+(r.obs||'—')+'</td>';
+    h+='<td><button class="btn btn-sm btn-outline btn-icon" onclick="excluirRegistro(\'medicacoes\',\''+r.id+'\',renderTabelaMed)"><i class="fas fa-trash"></i></button></td></tr>';
+  });
+  el.innerHTML=h+'</tbody></table>';
+}
+
+function renderListaEvolucoes(){
+  var el=document.getElementById('listaEvolucoes');
+  var recs=dados.evolucoes.filter(function(r){return r.pacienteId===pacienteAtual;}).reverse();
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-notes-medical"></i><p>Nenhuma evolução registrada</p></div>';return;}
+  var h='';
+  recs.forEach(function(r){
+    h+='<div class="evolucao-card">';
+    h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:8px">';
+    h+='<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">';
+    h+='<span class="badge badge-verde"><i class="fas fa-calendar"></i> '+fmtData(r.data)+' '+r.hora+'</span>';
+    h+='<span class="badge badge-azul"><i class="fas fa-user-nurse"></i> '+r.turno+'</span>';
+    if(r.responsavel)h+='<span style="font-size:12px;font-weight:600;color:var(--verde-dark)">'+r.responsavel+'</span>';
+    h+='</div>';
+    h+='<button class="btn btn-sm btn-vermelho btn-icon" onclick="excluirRegistro(\'evolucoes\',\''+r.id+'\',renderListaEvolucoes)"><i class="fas fa-trash"></i></button>';
+    h+='</div>';
+    if(r.diagnostico)h+='<div style="font-size:12px;color:var(--cinza);margin-bottom:6px"><b>Diagnóstico:</b> '+r.diagnostico+'</div>';
+    h+='<div style="font-size:13px;line-height:1.7;color:var(--texto);white-space:pre-wrap;margin-bottom:8px">'+r.texto+'</div>';
+    if(r.prescricao)h+='<div style="background:var(--azul-bg);border:1px solid #90caf9;border-radius:8px;padding:10px;font-size:12px"><b style="color:var(--azul)"><i class="fas fa-clipboard-list"></i> Prescrição:</b><br>'+r.prescricao+'</div>';
+    h+='</div>';
+  });
+  el.innerHTML=h;
+}
+
+function renderListaFisio(){
+  var el=document.getElementById('listaFisio');
+  if(!el)return;
+  var recs=dados.fisio.filter(function(r){return r.pacienteId===pacienteAtual;}).reverse();
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-running"></i><p>Nenhum atendimento registrado</p></div>';return;}
+  el.innerHTML=recs.map(function(r){
+    return '<div class="evolucao-card fisio">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">'+
+        '<div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">'+
+          '<span class="badge badge-laranja"><i class="fas fa-calendar"></i> '+fmtData(r.data)+' '+r.hora+'</span>'+
+          '<span class="badge badge-amber">'+r.turno+'</span>'+
+          (r.responsavel?'<span style="font-size:12px;font-weight:600;color:var(--laranja-dark)">'+r.responsavel+'</span>':'')+
+        '</div>'+
+        '<button class="btn btn-sm btn-vermelho btn-icon" onclick="excluirFisio(\'+r.id+\')"><i class="fas fa-trash"></i></button>'+
+      '</div>'+
+      '<div style="font-size:12px;font-weight:700;color:var(--laranja-dark);margin-bottom:6px">'+r.tipo+'</div>'+
+      (r.objetivos?'<div style="font-size:12px;color:var(--cinza);margin-bottom:6px"><b>Objetivos:</b> '+r.objetivos+'</div>':'')+
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+
+        (r.mrc?'<span class="badge badge-verde">MRC: '+r.mrc+'</span>':'')+
+        (r.ims?'<span class="badge badge-laranja">IMS: '+r.ims+'</span>':'')+
+        (r.spo2?'<span class="badge badge-verde">SpO₂: '+r.spo2+'%</span>':'')+
+        (r.tempo?'<span class="badge badge-amber"><i class="fas fa-clock"></i> '+r.tempo+'min</span>':'')+
+      '</div>'+
+      (r.tecnicas?'<div style="font-size:12px;color:var(--texto-sec);margin-bottom:6px"><b>Técnicas:</b> '+r.tecnicas+'</div>':'')+
+      '<div style="font-size:13px;line-height:1.7;white-space:pre-wrap;margin-bottom:8px">'+r.resposta+'</div>'+
+      (r.conduta?'<div style="background:var(--laranja-bg);border:1px solid #fcd34d;border-radius:8px;padding:10px;font-size:12px"><b style="color:var(--laranja-dark)"><i class="fas fa-forward"></i> Conduta:</b><br>'+r.conduta+'</div>':'')+
+    '</div>';
+  }).join('');
+}
+
+function renderListaFisioEvo(){
+  var el=document.getElementById('listaFisioEvo');
+  if(!el)return;
+  var recs=dados.fisioEvo.filter(function(r){return r.pacienteId===pacienteAtual;}).reverse();
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-clipboard-list"></i><p>Nenhuma evolução</p></div>';return;}
+  el.innerHTML=recs.map(function(r){
+    return '<div class="evolucao-card fisio">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">'+
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">'+
+          '<span class="badge badge-laranja">'+fmtData(r.data)+' '+r.hora+'</span>'+
+          '<span class="badge badge-amber">'+r.turno+'</span>'+
+          (r.responsavel?'<span style="font-size:12px;font-weight:600;color:var(--laranja-dark)">'+r.responsavel+'</span>':'')+
+        '</div>'+
+        '<button class="btn btn-sm btn-vermelho btn-icon" onclick="excluirFisioEvo(\'+r.id+\')"><i class="fas fa-trash"></i></button>'+
+      '</div>'+
+      (r.diagnostico?'<div style="font-size:12px;color:var(--cinza);margin-bottom:6px"><b>Diagnóstico:</b> '+r.diagnostico+'</div>':'')+
+      '<div style="font-size:13px;line-height:1.7;white-space:pre-wrap;margin-bottom:8px">'+r.texto+'</div>'+
+      (r.prescricao?'<div style="background:var(--laranja-bg);border:1px solid #fcd34d;border-radius:8px;padding:10px;font-size:12px"><b style="color:var(--laranja-dark)"><i class="fas fa-clipboard-list"></i> Prescrição:</b><br>'+r.prescricao+'</div>':'')+
+    '</div>';
+  }).join('');
+}
+
+async function excluirFisio(id){if(!confirm('Excluir?'))return;try{await sbDelete('fisio',id);}catch(e){}dados.fisio=dados.fisio.filter(function(r){return r.id!==id;});renderListaFisio();notif('Excluído.');}
+async function excluirFisioEvo(id){if(!confirm('Excluir?'))return;try{await sbDelete('fisio_evolucoes',id);}catch(e){}dados.fisioEvo=dados.fisioEvo.filter(function(r){return r.id!==id;});renderListaFisioEvo();notif('Excluído.');}
+
+// ===== NUTRIÇÃO =====
+function calcIMC(){
+  var peso=parseFloat(document.getElementById('nutriPeso').value);
+  var altura=parseFloat(document.getElementById('nutriAltura').value);
+  var pesoHab=parseFloat(document.getElementById('nutriPesoHab').value);
+  if(peso&&altura&&altura>0){
+    var imc=peso/(altura*altura);
+    document.getElementById('nutriIMC').value=imc.toFixed(1);
+    var cl=imc<16?'Desnutrição Grave':imc<17?'Desnutrição Moderada':imc<18.5?'Desnutrição Leve':imc<25?'Eutrófico':imc<30?'Sobrepeso':imc<35?'Obesidade I':imc<40?'Obesidade II':'Obesidade III';
+    document.getElementById('nutriClassIMC').value=cl;
+  }
+  if(peso&&pesoHab&&pesoHab>0){document.getElementById('nutriPerdaPeso').value=((pesoHab-peso)/pesoHab*100).toFixed(1)+'%';}
+}
+
+async function salvarNutri(){
+  if(!pacienteAtual){notif('Selecione um paciente!','erro');return;}
+  var r={id:uid(),pacienteId:pacienteAtual,data:document.getElementById('nutriData').value||hoje(),hora:document.getElementById('nutriHora').value||agoraHora(),responsavel:document.getElementById('nutriResp').value,tipo:document.getElementById('nutriTipo').value,peso:document.getElementById('nutriPeso').value,altura:document.getElementById('nutriAltura').value,imc:document.getElementById('nutriIMC').value,classIMC:document.getElementById('nutriClassIMC').value,pesoHab:document.getElementById('nutriPesoHab').value,perdaPeso:document.getElementById('nutriPerdaPeso').value,via:document.getElementById('nutriVia').value,tipoDieta:document.getElementById('nutriTipoDieta').value,vct:document.getElementById('nutriVCT').value,proteinas:document.getElementById('nutriProteinas').value,formula:document.getElementById('nutriFormula').value,nrs:document.getElementById('nutriNRS').value,estado:document.getElementById('nutriEstado').value,alergias:document.getElementById('nutriAlergias').value,obs:document.getElementById('nutriObs').value,conduta:document.getElementById('nutriConduta').value};
+  try{await sbInsert('nutri',{id:r.id,paciente_id:r.pacienteId,data:r.data,hora:r.hora,responsavel:r.responsavel,tipo:r.tipo,peso:r.peso,imc:r.imc,class_imc:r.classIMC,via:r.via,tipo_dieta:r.tipoDieta,vct:r.vct,nrs:r.nrs,estado:r.estado,alergias:r.alergias,obs:r.obs,conduta:r.conduta});}catch(e){console.log('Tabela nutri pendente');}
+  dados.nutri.push(r);
+  ['nutriPeso','nutriAltura','nutriIMC','nutriClassIMC','nutriPesoHab','nutriPerdaPeso','nutriVCT','nutriProteinas','nutriFormula','nutriAlergias','nutriObs','nutriConduta'].forEach(function(id){document.getElementById(id).value='';});
+  renderListaNutri();notif('Avaliação nutricional registrada!');
+}
+
+async function salvarNutriEvo(){
+  if(!pacienteAtual){notif('Selecione um paciente!','erro');return;}
+  if(!document.getElementById('nutriEvoTexto').value.trim()){notif('Informe a evolução','erro');return;}
+  var r={id:uid(),pacienteId:pacienteAtual,data:document.getElementById('nutriEvoData').value||hoje(),hora:document.getElementById('nutriEvoHora').value||agoraHora(),responsavel:document.getElementById('nutriEvoResp').value,turno:document.getElementById('nutriEvoTurno').value,aceitacao:document.getElementById('nutriEvoAceitacao').value,texto:document.getElementById('nutriEvoTexto').value,prescricao:document.getElementById('nutriEvoPrescricao').value};
+  try{await sbInsert('nutri_evolucoes',{id:r.id,paciente_id:r.pacienteId,data:r.data,hora:r.hora,responsavel:r.responsavel,turno:r.turno,aceitacao:r.aceitacao,texto:r.texto,prescricao:r.prescricao});}catch(e){}
+  dados.nutriEvo.push(r);
+  ['nutriEvoResp','nutriEvoTexto','nutriEvoPrescricao'].forEach(function(id){document.getElementById(id).value='';});
+  renderListaNutriEvo();notif('Evolução nutricional registrada!');
+}
+
+function renderListaNutri(){
+  var el=document.getElementById('listaNutri');
+  if(!el)return;
+  var recs=dados.nutri.filter(function(r){return r.pacienteId===pacienteAtual;}).reverse();
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-apple-alt"></i><p>Nenhuma avaliação registrada</p></div>';return;}
+  el.innerHTML=recs.map(function(r){
+    return '<div class="evolucao-card nutri">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">'+
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">'+
+          '<span class="badge badge-roxo"><i class="fas fa-calendar"></i> '+fmtData(r.data)+' '+r.hora+'</span>'+
+          (r.responsavel?'<span style="font-size:12px;font-weight:600;color:var(--roxo)">'+r.responsavel+'</span>':'')+
+        '</div>'+
+        '<button class="btn btn-sm btn-vermelho btn-icon" onclick="excluirNutri(\'+r.id+\')"><i class="fas fa-trash"></i></button>'+
+      '</div>'+
+      '<div style="font-size:12px;font-weight:700;color:var(--roxo);margin-bottom:8px">'+r.tipo+'</div>'+
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+
+        (r.peso?'<span class="badge badge-roxo"><i class="fas fa-weight"></i> '+r.peso+' kg</span>':'')+
+        (r.imc?'<span class="badge badge-roxo">IMC: '+r.imc+'</span>':'')+
+        (r.classIMC?'<span class="badge badge-amber">'+r.classIMC+'</span>':'')+
+        (r.estado?'<span class="badge badge-verde">'+r.estado+'</span>':'')+
+        (r.nrs?'<span class="badge badge-vermelho">NRS: '+r.nrs+'</span>':'')+
+      '</div>'+
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+
+        (r.via?'<span class="badge badge-azul"><i class="fas fa-utensils"></i> '+r.via+'</span>':'')+
+        (r.tipoDieta?'<span class="badge badge-verde">'+r.tipoDieta+'</span>':'')+
+        (r.vct?'<span class="badge badge-amber">'+r.vct+' kcal</span>':'')+
+      '</div>'+
+      (r.formula?'<div style="font-size:12px;color:var(--texto-sec);margin-bottom:6px"><b>Fórmula:</b> '+r.formula+'</div>':'')+
+      (r.alergias?'<div style="font-size:12px;background:var(--vermelho-bg);border:1px solid #ffcdd2;border-radius:6px;padding:6px;margin-bottom:6px"><b style="color:var(--vermelho)"><i class="fas fa-exclamation-triangle"></i> Alergias:</b> '+r.alergias+'</div>':'')+
+      (r.obs?'<div style="font-size:13px;line-height:1.7;margin-bottom:8px">'+r.obs+'</div>':'')+
+      (r.conduta?'<div style="background:var(--roxo-bg);border:1px solid #c4b5fd;border-radius:8px;padding:10px;font-size:12px"><b style="color:var(--roxo)"><i class="fas fa-clipboard-list"></i> Conduta:</b><br>'+r.conduta+'</div>':'')+
+    '</div>';
+  }).join('');
+}
+
+function renderListaNutriEvo(){
+  var el=document.getElementById('listaNutriEvo');
+  if(!el)return;
+  var recs=dados.nutriEvo.filter(function(r){return r.pacienteId===pacienteAtual;}).reverse();
+  if(!recs.length){el.innerHTML='<div class="empty"><i class="fas fa-clipboard-list"></i><p>Nenhuma evolução</p></div>';return;}
+  el.innerHTML=recs.map(function(r){
+    return '<div class="evolucao-card nutri">'+
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap;gap:6px">'+
+        '<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">'+
+          '<span class="badge badge-roxo">'+fmtData(r.data)+' '+r.hora+'</span>'+
+          '<span class="badge badge-roxo">'+r.turno+'</span>'+
+          (r.responsavel?'<span style="font-size:12px;font-weight:600;color:var(--roxo)">'+r.responsavel+'</span>':'')+
+        '</div>'+
+        '<button class="btn btn-sm btn-vermelho btn-icon" onclick="excluirNutriEvo(\'+r.id+\')"><i class="fas fa-trash"></i></button>'+
+      '</div>'+
+      (r.aceitacao?'<div style="margin-bottom:8px"><span class="badge badge-verde"><i class="fas fa-utensils"></i> '+r.aceitacao+'</span></div>':'')+
+      '<div style="font-size:13px;line-height:1.7;white-space:pre-wrap;margin-bottom:8px">'+r.texto+'</div>'+
+      (r.prescricao?'<div style="background:var(--roxo-bg);border:1px solid #c4b5fd;border-radius:8px;padding:10px;font-size:12px"><b style="color:var(--roxo)"><i class="fas fa-clipboard-list"></i> Prescrição:</b><br>'+r.prescricao+'</div>':'')+
+    '</div>';
+  }).join('');
+}
+
+async function excluirNutri(id){if(!confirm('Excluir?'))return;try{await sbDelete('nutri',id);}catch(e){}dados.nutri=dados.nutri.filter(function(r){return r.id!==id;});renderListaNutri();notif('Excluído.');}
+async function excluirNutriEvo(id){if(!confirm('Excluir?'))return;try{await sbDelete('nutri_evolucoes',id);}catch(e){}dados.nutriEvo=dados.nutriEvo.filter(function(r){return r.id!==id;});renderListaNutriEvo();notif('Excluído.');}
+
+// ===== EXCLUIR GENÉRICO =====
+async function excluirRegistro(tipo,id,cb){
+  if(!confirm('Deseja excluir este registro?'))return;
+  var tabelaMap={sinaisVitais:'sinais_vitais',hgt:'hgt',decubito:'decubito',svd:'svd',gtt:'gtt',sne:'sne',sng:'sng',medicacoes:'medicacoes',evolucoes:'evolucoes',oxigenio:'oxigenio'};
+  await sbDelete(tabelaMap[tipo]||tipo,id);
+  dados[tipo]=dados[tipo].filter(function(r){return r.id!==id;});
+  if(cb)cb();notif('Registro excluído.');
+}
+
+// ===== DASHBOARD =====
+function renderDashboard(){
+  var cards=[
+    {label:'Pacientes',valor:dados.pacientes.length,icon:'fas fa-users',cor:'verde'},
+    {label:'Sinais Hoje',valor:dados.sinaisVitais.filter(function(r){return r.data===hoje();}).length,icon:'fas fa-stethoscope',cor:'azul'},
+    {label:'HGT Hoje',valor:dados.hgt.filter(function(r){return r.data===hoje();}).length,icon:'fas fa-tint',cor:'azul'},
+    {label:'Evoluções Hoje',valor:dados.evolucoes.filter(function(r){return r.data===hoje();}).length,icon:'fas fa-notes-medical',cor:'verde'},
+  ];
+  document.getElementById('dashCards').innerHTML=cards.map(function(c){return '<div class="dash-card"><div class="dash-icon" style="background:var(--'+c.cor+'-bg);color:var(--'+c.cor+')"><i class="'+c.icon+'"></i></div><div><div class="dash-num" style="color:var(--'+c.cor+'-dark)">'+c.valor+'</div><div class="dash-label">'+c.label+'</div></div></div>';}).join('');
+  var tbody=document.getElementById('dashPacBody');
+  if(!dados.pacientes.length){tbody.innerHTML='<tr><td colspan="5" class="empty" style="padding:20px"><i class="fas fa-users"></i><p>Nenhum paciente</p></td></tr>';return;}
+    var rows='';
+  dados.pacientes.forEach(function(p){
+    var sv=dados.sinaisVitais.filter(function(r){return r.pacienteId===p.id;}).sort(function(a,b){return b.data.localeCompare(a.data);})[0];
+    var svTxt=sv?fmtData(sv.data)+' '+sv.hora:'Sem reg.';
+    rows+='<tr>';
+    rows+='<td><b>'+p.nome+'</b></td>';
+    rows+='<td>Leito '+p.leito+'</td>';
+    rows+='<td>'+(p.diagnostico||'—')+'</td>';
+    rows+='<td>'+svTxt+'</td>';
+    rows+='<td>';
+    rows+='<button class="btn btn-sm btn-verde btn-icon" onclick="selecionarPaciente(\''+p.id+'\');navTo(\'sinais\',\'nav-sinais\');setBnActive(\'bn-sinais\')"><i class="fas fa-stethoscope"></i></button> ';
+    rows+='<button class="btn btn-sm btn-outline btn-icon" onclick="selecionarPaciente(\''+p.id+'\');gerarPDF()"><i class="fas fa-file-pdf"></i></button>';
+    rows+='</td></tr>';
+  });
+  tbody.innerHTML=rows;
+
+}
+
+// ===== EDIÇÃO =====
+async function salvarEdicao(){
+  if(editandoTipo==='paciente'){
+    var p=dados.pacientes.find(function(x){return x.id===editandoId;});
+    p.nome=document.getElementById('ep_nome').value;p.idade=document.getElementById('ep_idade').value;p.leito=document.getElementById('ep_leito').value;p.diagnostico=document.getElementById('ep_diag').value;p.medico=document.getElementById('ep_medico').value;p.acamado=document.getElementById('ep_acamado').value;p.obs=document.getElementById('ep_obs').value;
+    await sbUpdate('pacientes',editandoId,{nome:p.nome,idade:p.idade,leito:p.leito,diagnostico:p.diagnostico,medico:p.medico,acamado:p.acamado,obs:p.obs});
+    renderPacientes();atualizarSeletorPacientes();closeModal('modalEditar');notif('Paciente atualizado!');
+  }
+}
+
+// ===== RENDER TABELAS =====
+function renderTabelasView(v){
+  if(v==='sinais'){setDefaultDates(['svData','svHora']);renderTabelaSV();}
+  if(v==='hgt'){setDefaultDates(['hgtData','hgtHora']);renderTabelaHGT();}
+  if(v==='decubito'){setDefaultDates(['decData','decHora']);renderTabelaDec();}
+  if(v==='dispositivos'){setDefaultDates(['svdData','svdHora','gttData','gttHora','sneData','sneHora','sngData','sngHora']);renderTabelaDisp('svd');}
+  if(v==='medicacoes'){renderTabelaMed();}
+  if(v==='oxigenio'){setDefaultDates(['o2Data','o2Hora']);renderTabelaO2();atualizarInfoO2();}
+  if(v==='evolucao'){setDefaultDates(['evolData','evolHora']);renderListaEvolucoes();}
+  if(v==='fisio'){setDefaultDates(['fisioData','fisioHora']);renderListaFisio();}
+  if(v==='fisioEvo'){setDefaultDates(['fisioEvoData','fisioEvoHora']);renderListaFisioEvo();}
+  if(v==='nutri'){setDefaultDates(['nutriData','nutriHora']);renderListaNutri();}
+  if(v==='nutriEvo'){setDefaultDates(['nutriEvoData','nutriEvoHora']);renderListaNutriEvo();}
+}
+
+function setDefaultDates(ids){
+  ids.forEach(function(id){var el=document.getElementById(id);if(!el||el.value)return;if(el.type==='date')el.value=hoje();if(el.type==='time')el.value=agoraHora();});
+}
+
+// ===== CORES =====
+function atualizarCor(nome,valor){
+  var r=document.documentElement;
+  if(nome==='verde'){r.style.setProperty('--verde',valor);r.style.setProperty('--verde-mid',ajustarBrilho(valor,20));r.style.setProperty('--verde-dark',ajustarBrilho(valor,-30));r.style.setProperty('--verde-light',ajustarBrilho(valor,40));r.style.setProperty('--verde-bg',hexToRgba(valor,0.1));}
+  if(nome==='azul'){r.style.setProperty('--azul',valor);r.style.setProperty('--azul-light',ajustarBrilho(valor,40));r.style.setProperty('--azul-bg',hexToRgba(valor,0.08));}
+  if(nome==='vermelho'){r.style.setProperty('--vermelho',valor);r.style.setProperty('--vermelho-light',ajustarBrilho(valor,30));r.style.setProperty('--vermelho-bg',hexToRgba(valor,0.08));}
+  try{localStorage.setItem('nsCores',JSON.stringify({verde:document.getElementById('colorVerde').value,azul:document.getElementById('colorAzul').value,vermelho:document.getElementById('colorVermelho').value}));}catch(e){}
+}
+function ajustarBrilho(hex,amount){var rr=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);rr=Math.max(0,Math.min(255,rr+amount));g=Math.max(0,Math.min(255,g+amount));b=Math.max(0,Math.min(255,b+amount));return '#'+[rr,g,b].map(function(x){return x.toString(16).padStart(2,'0');}).join('');}
+function hexToRgba(hex,a){var rr=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);return 'rgba('+rr+','+g+','+b+','+a+')';}
+function resetarCores(){
+  document.getElementById('colorVerde').value='#1a7a3c';document.getElementById('colorAzul').value='#1565c0';document.getElementById('colorVermelho').value='#c62828';
+  atualizarCor('verde','#1a7a3c');atualizarCor('azul','#1565c0');atualizarCor('vermelho','#c62828');
+  localStorage.removeItem('nsCores');notif('Cores restauradas ao padrão!');
+}
+
+// ===== TEMA CLARO/ESCURO =====
+function toggleTheme(){
+  var cur=document.documentElement.getAttribute('data-theme')||'light';
+  var next=cur==='light'?'dark':'light';
+  document.documentElement.setAttribute('data-theme',next);
+  document.getElementById('btnTheme').textContent=next==='dark'?'☀️':'🌙';
+  try{localStorage.setItem('nsTheme',next);}catch(e){}
+}
+(function(){
+  try{var t=localStorage.getItem('nsTheme')||'light';document.documentElement.setAttribute('data-theme',t);
+  setTimeout(function(){var btn=document.getElementById('btnTheme');if(btn)btn.textContent=t==='dark'?'☀️':'🌙';},100);}catch(e){}
+})();
+
+// ===== PDF =====
+function gerarPDF(){
+  var pac=pacienteAtual?dados.pacientes.find(function(p){return p.id===pacienteAtual;}):null;
+  var preview=document.getElementById('pdfPreview');
+  var content=document.getElementById('pdfContent');
+  var svs=pac?dados.sinaisVitais.filter(function(r){return r.pacienteId===pac.id;}):dados.sinaisVitais;
+  var hgts=pac?dados.hgt.filter(function(r){return r.pacienteId===pac.id;}):dados.hgt;
+  var meds=pac?dados.medicacoes.filter(function(r){return r.pacienteId===pac.id;}):dados.medicacoes;
+  var evols=pac?dados.evolucoes.filter(function(r){return r.pacienteId===pac.id;}):dados.evolucoes;
+  var decs=pac?dados.decubito.filter(function(r){return r.pacienteId===pac.id;}):dados.decubito;
+  var o2s=pac?dados.oxigenio.filter(function(r){return r.pacienteId===pac.id;}):dados.oxigenio;
+  var pacs=pac?[pac]:dados.pacientes;
+  var dataRelatorio=new Date().toLocaleDateString('pt-BR');
+  content.innerHTML='<div style="text-align:center;margin-bottom:20px;border-bottom:3px solid #1a7a3c;padding-bottom:14px"><h1 style="color:#1a7a3c;font-size:22px;margin:0">NS Enfermagem</h1><p style="color:#666;font-size:12px;margin:4px 0">Relatório — '+dataRelatorio+'</p>'+(pac?'<p style="font-weight:700;font-size:15px;margin:4px 0">'+pac.nome+' | Leito '+pac.leito+'</p>':'')+'</div>'+
+    (evols.length?'<h2 style="color:#1a7a3c;font-size:14px;border-left:4px solid #1a7a3c;padding-left:8px;margin-bottom:8px">Evoluções de Enfermagem</h2>'+evols.reverse().map(function(r){return '<div style="border:1px solid #e0e6ed;border-left:4px solid #1a7a3c;border-radius:6px;padding:10px;margin-bottom:10px"><div style="font-size:11px;color:#666;margin-bottom:4px">'+fmtData(r.data)+' '+r.hora+' | '+r.turno+(r.responsavel?' | '+r.responsavel:'')+'</div>'+(r.diagnostico?'<p style="font-size:11px"><b>Diagnóstico:</b> '+r.diagnostico+'</p>':'')+'<p style="font-size:12px;line-height:1.6;white-space:pre-wrap">'+r.texto+'</p>'+(r.prescricao?'<div style="background:#e3f2fd;padding:6px;border-radius:4px;font-size:11px;margin-top:4px"><b>Prescrição:</b> '+r.prescricao+'</div>':'')+'</div>';}).join(''):'');
+  preview.classList.add('open');
+}
+
+function baixarPDF(){
+  var content=document.getElementById('pdfContent').innerHTML;
+  var w=window.open('','_blank','width=900,height=700');
+  if(!w){notif('Permita popups para gerar PDF','erro');return;}
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>NS Enfermagem</title><style>body{font-family:Arial,sans-serif;font-size:11px;padding:20px;}@media print{body{padding:8mm;}}</style></head><body>'+content+'</body></html>');
+  w.document.close();w.focus();
+  setTimeout(function(){w.print();},600);
+}
+
+// ===== INIT =====
+async function init(){
+  try{var cores=JSON.parse(localStorage.getItem('nsCores')||'{}');if(cores.verde){document.getElementById('colorVerde').value=cores.verde;atualizarCor('verde',cores.verde);}if(cores.azul){document.getElementById('colorAzul').value=cores.azul;atualizarCor('azul',cores.azul);}if(cores.vermelho){document.getElementById('colorVermelho').value=cores.vermelho;atualizarCor('vermelho',cores.vermelho);}}catch(e){}
+  notif('Conectando ao servidor...','ok');
+  await carregarTudo();
+  atualizarSeletorPacientes();renderDashboard();showView('dashboard');setSidebarActive('nav-dashboard');setBnActive('bn-dashboard');
+  var hoje_=hoje(),hora_=agoraHora();
+  document.querySelectorAll('input[type=date]').forEach(function(el){if(!el.value)el.value=hoje_;});
+  document.querySelectorAll('input[type=time]').forEach(function(el){if(!el.value)el.value=hora_;});
+  notif('Sistema online! ☁️','ok');
+}
+
+// Carregar usuários — admin padrão SEMPRE garantido
+var _adminPadrao={login:'admin',senha:'ns2024',role:'admin',nome:'Administrador',id:'admin0'};
+window._nsUsuarios=null;
+supa.from('usuarios').select('*').then(function(res){
+  var lista=res.data||[];
+  var temAdmin=lista.some(function(u){return u.login==='admin'||u.id==='admin0';});
+  if(!temAdmin)lista=[_adminPadrao].concat(lista);
+  window._nsUsuarios=lista;
+}).catch(function(){window._nsUsuarios=[_adminPadrao];});
+</script>
+</body>
+</html>
